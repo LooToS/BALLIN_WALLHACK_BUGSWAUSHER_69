@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$USER_HOME$/Downloads/New folder/spigot-1.8-R0.1-SNAPSHOT-latest.jar!/" />
+    <libelement value="jar://$USER_HOME$/Downloads/New folder/Vaultnew.jar!/" />
+    <libelement value="file://C:/Users/CGale9024/Desktop/bukkit-1.7.9-R0.2.jar" />
+    <libelement value="jar://$USER_HOME$/Downloads/TitleAPI.jar!/" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$" type="java-test-resource" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="module-library">
+      <library name="spigot-1.8-R0.1-SNAPSHOT-latest.jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/New folder/spigot-1.8-R0.1-SNAPSHOT-latest.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="https://hub.spigotmc.org/javadocs/spigot/" />
+        </JAVADOC>
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Vaultnew.jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/New folder/Vaultnew.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="TitleAPI.jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/TitleAPI.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
