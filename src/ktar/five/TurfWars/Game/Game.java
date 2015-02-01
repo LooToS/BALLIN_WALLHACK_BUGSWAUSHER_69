@@ -11,6 +11,7 @@ import ktar.five.TurfWars.Game.Info.Phase.PhaseType;
 import ktar.five.TurfWars.Game.Info.Team;
 import ktar.five.TurfWars.Game.Info.TurfPlayer;
 import ktar.five.TurfWars.Game.cooldowns.TurfEvent;
+import ktar.five.TurfWars.Game.kits.Shredder;
 import ktar.five.TurfWars.Lobby.Lobby;
 
 import org.bukkit.Bukkit;
@@ -18,6 +19,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -89,12 +91,12 @@ public class Game implements Listener {
 
 	private void displayStartGametitlecountdown() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void displayStartGametitle() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void handlePhases() {
@@ -161,8 +163,17 @@ public class Game implements Listener {
 	public void entityShootBow(EntityShootBowEvent event){
 		if(event.getEntity() instanceof Player){
 			Player p = (Player) event.getEntity();
-			event.getProjectile().setMetadata("Arrow", new FixedMetadataValue(this.plugin, p.getUniqueId()));;
-			this.players.getTurfPlayer(p.getUniqueId()).shotArrow();
+			TurfPlayer player = players.getTurfPlayer(p.getUniqueId());
+			if(player.kit instanceof Shredder){
+				for(int i = player.arrows ; i >= 0 ; i--){
+					Projectile proj = p.getWorld().spawnArrow(p.getLocation(),p.getLocation().getDirection(), 2/*put your arrow speed here*/, 2/*put your spread here*/);
+					proj.setMetadata("Arrow", new FixedMetadataValue(this.plugin, p.getUniqueId()));
+					player.shotArrow();
+				}
+			}else{
+				event.getProjectile().setMetadata("Arrow", new FixedMetadataValue(this.plugin, p.getUniqueId()));
+				player.shotArrow();
+			}
 		}
 	}
 
@@ -193,7 +204,7 @@ public class Game implements Listener {
 			clayManager.removeIfIsPlacedBlock(event.getEntity().getLocation().getBlock());
 			players.getTurfPlayer(shooter.getUniqueId()).brokeBlock();
 		}
-		
+
 		event.getEntity().getLocation();
 	}
 

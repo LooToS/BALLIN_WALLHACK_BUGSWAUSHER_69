@@ -1,0 +1,61 @@
+isHub: false
+hubOptions:
+  gameServers:
+    - serv1
+    - serv2
+    - serv4
+  hubNpcLocations:
+    loc1:
+      x: '-1.2'
+      y: 1
+      z '3'
+      world: 'world'
+    loc2:
+      x: '-8.2'
+      y: 5
+      z '7'
+      world: 'world'
+
+lobbyOptions:
+  world: 'neweb'
+  locations:
+    infiltrator:
+      x: '-8.2'
+      y: 5
+      z '7'
+    marksman:
+      x: '-8.2'
+      y: 5
+      z '7'
+    shredder:
+      x: '-8.2'
+      y: 5
+      z '7'     
+    blueSheep:
+      x: '-8.2'
+      y: 5
+      z '7'
+    redSheep:
+      x: '-8.2'
+      y: 5
+      z '7'
+    blueSpawn:
+      x: '-8.2'
+      y: 5
+      z '7'
+    redSpawn:
+      x: '-8.2'
+      y: 5
+      z '7' 
+    boundaryOne:
+      x: '-8.2'
+      y: 5
+      z '7'
+    boundaryTwo:
+      x: '-8.2'
+      y: 5
+      z '7'
+    lobbySpawn:
+      x: '-8.2'
+      y: 5
+      z '7'      

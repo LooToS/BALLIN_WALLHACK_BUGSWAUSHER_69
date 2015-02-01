@@ -27,6 +27,8 @@ public class Lobby implements Listener{
 	public Lobby(Main plugin){
 		this.instance = plugin;
 		this.createTimer();
+		
+		spawnMobs(blueLoc, redLoc, marksman, infiltrator, shredder);
 	}
 	
 	/*
