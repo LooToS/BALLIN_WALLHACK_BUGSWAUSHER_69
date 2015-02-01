@@ -56,7 +56,7 @@ public class Lobby implements Listener{
         p.sendPluginMessage(this, "BungeeCord", out.toByteArray());
     }
 	 */
-	private enum MobType{
+	public static enum MobType{
 		BLUESHEEP,
 		REDSHEEP,
 		MARKSMAN,
@@ -64,9 +64,10 @@ public class Lobby implements Listener{
 		SHREDDER;
 	}
 	
-	private void spawnMob(EntityType type, Location loc, MobType meta){
-		LivingEntity entity = (LivingEntity) loc.getWorld().spawnEntity(loc, type);
+	private void spawnMob(Location loc, MobType meta){
+		LivingEntity entity;
 		if(meta.equals(MobType.BLUESHEEP) || meta.equals(MobType.REDSHEEP)){
+			entity = (LivingEntity) loc.getWorld().spawnEntity(loc, EntityType.SHEEP);
 			Sheep sheep = (Sheep) entity;
 			if(meta.equals(MobType.BLUESHEEP)){
 				sheep.setColor(DyeColor.BLUE);
@@ -75,6 +76,7 @@ public class Lobby implements Listener{
 			}
 			sheep.setAdult();
 		}else{
+			entity = (LivingEntity) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
 			Zombie zombie = (Zombie) entity;
 			zombie.setBaby(false);
 			zombie.setCustomName(meta.toString());
@@ -99,8 +101,11 @@ public class Lobby implements Listener{
 	private void spawnMobs(Location blueSheep,
 			Location redSheep, Location marksman,
 			Location infiltrator, Location shredder) {
-		this.spawnMob(EntityType.SHEEP, loc, meta);
-		
+		this.spawnMob(blueSheep, MobType.BLUESHEEP);
+		this.spawnMob(redSheep, MobType.REDSHEEP);
+		this.spawnMob(marksman, MobType.MARKSMAN);
+		this.spawnMob(infiltrator, MobType.INFILTRATOR);
+		this.spawnMob(shredder, MobType.SHREDDER);
 	}
 
 	public static Location configToLocation(ConfigurationSection section){

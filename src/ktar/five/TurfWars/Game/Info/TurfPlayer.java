@@ -2,7 +2,9 @@ package ktar.five.TurfWars.Game.Info;
 
 import ktar.five.TurfWars.Game.Game;
 import ktar.five.TurfWars.Game.cooldowns.Cooldown;
+import ktar.five.TurfWars.Game.kits.Infiltrator;
 import ktar.five.TurfWars.Game.kits.Kit;
+import ktar.five.TurfWars.Game.kits.Shredder;
 import ktar.five.TurfWars.Main;
 
 import org.bukkit.Bukkit;
@@ -27,7 +29,7 @@ public class TurfPlayer {
 	topKillsPerMatch, currentKillsThisMatch, /*kit kills*/
 	shortestGame, longestGame,
 	blocksDestroyed, blocksPlaced, arrowsShot,
-	topKillStreak, currentKillStreak;
+	topKillStreak, currentKillStreak, kitsUnlocked;
 	public int arrows;
 	public double multiplier;
 	public boolean canVenture, canMove, isSuperSlowed;
@@ -50,6 +52,7 @@ public class TurfPlayer {
 			this.blocksDestroyed = rs.getInt("blocksDestroyed");
 			this.blocksPlaced = rs.getInt("blocksPlaced");
 			this.multiplier = rs.getDouble("multiplier");
+			this.kitsUnlocked = rs.getInt("kitsUnlocked");
 			rs.close();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -60,6 +63,22 @@ public class TurfPlayer {
 		return Bukkit.getPlayer(playerUUID);
 	}
 
+	public int getUnlockedKits(){
+		return this.kitsUnlocked;
+	}
+	
+	public boolean hasKitUnlocked(Kit kit){
+		if(kitsUnlocked == 0){
+			return true;
+		}else if(kit instanceof Shredder){
+			return kitsUnlocked == 2; 
+		}else if(kit instanceof Infiltrator){
+			return kitsUnlocked == 1;
+		}else{
+			return true;
+		}
+	}
+	
 	public boolean isOnOwnTurf() {
 		Location loc = Bukkit.getPlayer(playerUUID).getLocation().subtract(0, 1, 0);
 		for (int i = 0; i < 3; i++) {
