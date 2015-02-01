@@ -1,15 +1,11 @@
 package ktar.five.TurfWars.Game.Info;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import org.bukkit.entity.Player;
-
+import ktar.five.TurfWars.Game.Player.Team;
+import ktar.five.TurfWars.Game.Player.TurfPlayer;
 import ktar.five.TurfWars.Main;
+
+import java.sql.SQLException;
+import java.util.*;
 
 public class GamePlayers {
 
@@ -133,7 +129,7 @@ public class GamePlayers {
     	if(team == Team.BLUE){
     		this.blueTeam.remove(player);
     	}else if(team == Team.RED){
-    		this.redTeam.remove(player)
+    		this.redTeam.remove(player);
     	}else if(team == Team.SPECTATOR){
     		this.spectators.remove(player);
     	}

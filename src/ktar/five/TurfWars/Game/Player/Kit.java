@@ -1,20 +1,25 @@
-package ktar.five.TurfWars.Game.kits;
-
-import java.util.Arrays;
-import java.util.List;
+package ktar.five.TurfWars.Game.Player;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public abstract class Kit {
+import java.util.Arrays;
+import java.util.List;
+
+public enum Kit {
+
+	MARKSMAN(false, 2, 2, 0, newIs(Material.BOW, 1)),
+	SHREDDER(true, 4, 2, 5000, newIs(Material.BOW, 1)),
+	INFILTRATOR(true, 8, 1, 2000, newIs(Material.BOW, 1), newIs(Material.IRON_SWORD, 1));
+
 
 	protected List<ItemStack> items;
 	public int cost;
 	public int maxArrows;
 	public int oneArrowPerX;
 	public boolean canVenture;
-	
-	protected Kit (boolean canVenture, int oneArrowPerX, int maxArrows, int cost, ItemStack... stack){
+
+	private Kit (boolean canVenture, int oneArrowPerX, int maxArrows, int cost, ItemStack... stack){
 		items = Arrays.asList(stack);
 		this.canVenture = canVenture;
 		this.oneArrowPerX = oneArrowPerX;
@@ -39,5 +44,8 @@ public abstract class Kit {
 	} 
 		Its not really needed...
 	*/
-	
+
+
+
+
 }

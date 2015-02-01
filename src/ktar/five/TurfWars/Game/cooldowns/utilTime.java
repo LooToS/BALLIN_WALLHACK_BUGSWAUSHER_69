@@ -1,4 +1,4 @@
-package ktar.five.TurfWars.Game.cooldowns; 
+package ktar.five.TurfWars.Game.cooldowns;
 
 
 public enum utilTime {

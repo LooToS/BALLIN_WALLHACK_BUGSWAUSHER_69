@@ -1,4 +1,4 @@
-package ktar.five.TurfWars.Game.Info;
+package ktar.five.TurfWars.Game.Player;
 
 import org.bukkit.DyeColor;
 

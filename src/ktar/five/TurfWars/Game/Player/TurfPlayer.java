@@ -1,12 +1,8 @@
-package ktar.five.TurfWars.Game.Info;
+package ktar.five.TurfWars.Game.Player;
 
-import ktar.five.TurfWars.Game.Game;
 import ktar.five.TurfWars.Game.cooldowns.Cooldown;
-import ktar.five.TurfWars.Game.kits.Infiltrator;
-import ktar.five.TurfWars.Game.kits.Kit;
-import ktar.five.TurfWars.Game.kits.Shredder;
+import ktar.five.TurfWars.Game.Game;
 import ktar.five.TurfWars.Main;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -31,7 +27,7 @@ public class TurfPlayer {
 	blocksDestroyed, blocksPlaced, arrowsShot,
 	topKillStreak, currentKillStreak, kitsUnlocked;
 	public int arrows;
-	public double multiplier;
+	public double multiplier, moneyGotThisRound;
 	public boolean canVenture, canMove, isSuperSlowed;
 
 	public TurfPlayer(int id, Main instance) {
@@ -66,19 +62,32 @@ public class TurfPlayer {
 	public int getUnlockedKits(){
 		return this.kitsUnlocked;
 	}
-	
+
+	public void addMoney(double amnt){
+		this.moneyGotThisRound += amnt;
+	}
+
 	public boolean hasKitUnlocked(Kit kit){
 		if(kitsUnlocked == 0){
 			return true;
-		}else if(kit instanceof Shredder){
-			return kitsUnlocked == 2; 
-		}else if(kit instanceof Infiltrator){
-			return kitsUnlocked == 1;
-		}else{
-			return true;
-		}
+		}else if (kit == Kit.SHREDDER) {
+			return kitsUnlocked == 2;
+		} else
+			return kit != Kit.INFILTRATOR || kitsUnlocked == 1;
 	}
-	
+
+	public double getBalance(){
+		return Main.economy.getBalance(this.getPlayer().getPlayer());
+	}
+
+	public void removeMoney(double amount){
+		Main.economy.withdrawPlayer(this.getPlayer().getPlayer(), amount);
+	}
+
+	public boolean canBuy(double amount){
+		return getBalance()>=amount;
+	}
+
 	public boolean isOnOwnTurf() {
 		Location loc = Bukkit.getPlayer(playerUUID).getLocation().subtract(0, 1, 0);
 		for (int i = 0; i < 3; i++) {
@@ -92,6 +101,18 @@ public class TurfPlayer {
 
 	public void setKitVenturing() {
 		canVenture = kit.canVenture;
+	}
+
+	public void unlockKit(Kit kit){
+		if(this.hasKitUnlocked(Kit.INFILTRATOR) && kit.equals(Kit.SHREDDER)){
+			kitsUnlocked = 0;
+		}else if (this.hasKitUnlocked(Kit.SHREDDER) && kit.equals(Kit.INFILTRATOR)){
+			kitsUnlocked = 0;
+		}else if (!this.hasKitUnlocked(Kit.INFILTRATOR) && kit.equals(Kit.SHREDDER)){
+			kitsUnlocked = 2;
+		}else if (kit.equals(Kit.INFILTRATOR)){
+			kitsUnlocked = 1;
+		}
 	}
 
 	public void handleMoving(Location to) {
@@ -110,13 +131,14 @@ public class TurfPlayer {
 
 	public void addWin(int gameTime) {
 		wins++;
+		addMoney(10);
 		if (currentKillsThisMatch > topKillsPerMatch)
 			topKillsPerMatch = currentKillsThisMatch;
 		if (gameTime < shortestGame)
 			shortestGame = gameTime;
 		if (gameTime > longestGame)
 			longestGame = gameTime;
-
+		Main.economy.depositPlayer(this.getPlayer().getPlayer(), this.moneyGotThisRound);
 	}
 
 	public void addDefeat(int gameTime) {
@@ -127,6 +149,7 @@ public class TurfPlayer {
 			shortestGame = gameTime;
 		if (gameTime > longestGame)
 			longestGame = gameTime;
+		Main.economy.depositPlayer(this.getPlayer().getPlayer(), this.moneyGotThisRound);
 	}
 
 	public void addDeath() {
@@ -141,6 +164,7 @@ public class TurfPlayer {
 		currentKillStreak++;
 		totalKills++;
 		currentKillsThisMatch++;
+		addMoney(0.5);
 	}
 
 	public void brokeBlock() {

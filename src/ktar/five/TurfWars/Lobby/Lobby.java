@@ -6,23 +6,12 @@ import ktar.five.TurfWars.Game.Info.GamePlayers;
 import ktar.five.TurfWars.Game.Info.GameStatus;
 import ktar.five.TurfWars.Game.Info.WorldInfo;
 import ktar.five.TurfWars.Game.cooldowns.Cooldown;
-import net.minecraft.server.v1_8_R1.EntityInsentient;
-import net.minecraft.server.v1_8_R1.EntityLiving;
-import net.minecraft.server.v1_8_R1.NBTTagCompound;
 
 import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Sheep;
-import org.bukkit.entity.Zombie;
 import org.bukkit.event.Listener;
-import org.bukkit.metadata.FixedMetadataValue;
 
 public class Lobby implements Listener{
 

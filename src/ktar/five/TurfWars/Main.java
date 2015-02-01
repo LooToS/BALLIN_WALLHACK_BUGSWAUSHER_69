@@ -1,22 +1,23 @@
 package ktar.five.TurfWars;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteStreams;
 import ktar.five.TurfWars.SQL.MySQL;
-
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteStreams;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class Main extends JavaPlugin implements PluginMessageListener{
 	
 	public final MySQL sql = new MySQL(this, null, null, null, null, null);
 	Connection c = null;
-	
+	public static Economy economy = null;
+
 	public static Main instance = null;
 
 	@Override
@@ -45,6 +46,18 @@ public class Main extends JavaPlugin implements PluginMessageListener{
 			e.printStackTrace();
 		}
 	}
+
+
+	private boolean setupEconomy()
+	{
+		RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+		if (economyProvider != null) {
+			economy = economyProvider.getProvider();
+		}
+
+		return (economy != null);
+	}
+
 
 	@Override
 	public void onPluginMessageReceived(String channel, Player player, byte[] message) {

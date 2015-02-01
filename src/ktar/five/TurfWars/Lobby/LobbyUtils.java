@@ -2,9 +2,7 @@ package ktar.five.TurfWars.Lobby;
 
 import ktar.five.TurfWars.Main;
 import net.minecraft.server.v1_8_R1.EntityInsentient;
-import net.minecraft.server.v1_8_R1.EntityLiving;
 import net.minecraft.server.v1_8_R1.NBTTagCompound;
-
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
@@ -24,7 +22,7 @@ public class LobbyUtils {
 		REDSHEEP,
 		MARKSMAN,
 		INFILTRATOR,
-		SHREDDER;
+		SHREDDER
 	}
 
 	private static void spawnMob(Location loc, MobType meta){
@@ -56,8 +54,7 @@ public class LobbyUtils {
 		NBTTagCompound tag = new NBTTagCompound();
 		nmsEntity.c(tag);
 		tag.setBoolean("NoAI", true);
-		EntityLiving el = nmsEntity;
-		el.a(tag);
+		nmsEntity.a(tag);
 
 	}
 

@@ -1,9 +1,10 @@
 package ktar.five.TurfWars.Game.cooldowns;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
+
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Cooldown {
 
@@ -45,7 +46,7 @@ public class Cooldown {
         for (UUID key : cooldownPlayers.keySet()) {
             for (String name : cooldownPlayers.get(key).cooldownMap.keySet()) {
                 if (getRemaining(key, name) <= 0.0) {
-                    if(name == "arrow") {
+                    if(Objects.equals(name, "arrow")) {
                         Bukkit.getServer().getPluginManager().callEvent(new TurfEvent(key));
                     }
                     removeCooldown(key, name);

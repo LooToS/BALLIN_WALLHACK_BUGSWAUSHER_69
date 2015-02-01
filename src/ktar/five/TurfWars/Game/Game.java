@@ -2,16 +2,16 @@ package ktar.five.TurfWars.Game;
 
 import java.util.UUID;
 
+import ktar.five.TurfWars.Game.Player.Kit;
 import ktar.five.TurfWars.Main;
 import ktar.five.TurfWars.Game.Info.ClayManager;
 import ktar.five.TurfWars.Game.Info.GamePlayers;
 import ktar.five.TurfWars.Game.Info.GameStatus;
 import ktar.five.TurfWars.Game.Info.Phase;
 import ktar.five.TurfWars.Game.Info.Phase.PhaseType;
-import ktar.five.TurfWars.Game.Info.Team;
-import ktar.five.TurfWars.Game.Info.TurfPlayer;
+import ktar.five.TurfWars.Game.Player.Team;
+import ktar.five.TurfWars.Game.Player.TurfPlayer;
 import ktar.five.TurfWars.Game.cooldowns.TurfEvent;
-import ktar.five.TurfWars.Game.kits.Shredder;
 import ktar.five.TurfWars.Lobby.Lobby;
 
 import org.bukkit.Bukkit;
@@ -40,7 +40,7 @@ public class Game implements Listener {
 	public Phase phase;
 	public GamePlayers players;
 	public ClayManager clayManager;
-	public Lobby lobby;
+	public final Lobby lobby;
 
 	public Game(String serverID, Main instance, Lobby lobby) {
 		this.serverID = serverID;
@@ -151,9 +151,7 @@ public class Game implements Listener {
 	@EventHandler
 	public void onArrowGetCooldown(TurfEvent event) {
 		TurfPlayer player = players.getTurfPlayer(event.getUUID());
-		if(player.arrows >= player.kit.maxArrows){
-			return;
-		}else{
+		if(player.arrows < player.kit.maxArrows){
 			player.giveArrow();
 		}
 	}
@@ -164,7 +162,7 @@ public class Game implements Listener {
 		if(event.getEntity() instanceof Player){
 			Player p = (Player) event.getEntity();
 			TurfPlayer player = players.getTurfPlayer(p.getUniqueId());
-			if(player.kit instanceof Shredder){
+			if(player.kit == Kit.SHREDDER){
 				for(int i = player.arrows ; i >= 0 ; i--){
 					Projectile proj = p.getWorld().spawnArrow(p.getLocation(),p.getLocation().getDirection(), 2/*put your arrow speed here*/, 2/*put your spread here*/);
 					proj.setMetadata("Arrow", new FixedMetadataValue(this.plugin, p.getUniqueId()));
@@ -217,7 +215,6 @@ public class Game implements Listener {
 				if (players.areOnSameTeam(damaged.getUniqueId(), damager.getUniqueId())) {
 					event.setDamage(0D);
 					event.setCancelled(true);
-					return;
 				}else if (((Damageable) damaged).getHealth() <= 0) {
 					TurfPlayer player = players.getAll().get(damager.getUniqueId());
 					player.addKill();
@@ -229,11 +226,9 @@ public class Game implements Listener {
 				Player damager = Bukkit.getPlayer((UUID) arrow.getMetadata("Arrow").get(0).value());
 				if(damager == damaged){
 					event.setCancelled(true);
-					return;
 				} else if (players.areOnSameTeam(damaged.getUniqueId(), damager.getUniqueId())) {
 					event.setDamage(0D);
 					event.setCancelled(true);
-					return;
 				}else if (((Damageable) damaged).getHealth() <= 0) {
 					TurfPlayer player = players.getAll().get(damager.getUniqueId());
 					player.addKill();
@@ -272,7 +267,7 @@ public class Game implements Listener {
 				players.getTurfPlayer(event.getPlayer().getUniqueId()).placedBlock();
 			}
 		}else{
-			return;
+			event.setCancelled(true);
 		}
 	}
 
