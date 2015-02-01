@@ -1,18 +1,30 @@
 package ktar.five.TurfWars.Lobby;
 
-import java.util.Map.Entry;
-
 import ktar.five.TurfWars.Main;
 import ktar.five.TurfWars.Game.Game;
 import ktar.five.TurfWars.Game.Info.GamePlayers;
 import ktar.five.TurfWars.Game.Info.GameStatus;
 import ktar.five.TurfWars.Game.Info.WorldInfo;
 import ktar.five.TurfWars.Game.cooldowns.Cooldown;
+import ktar.five.inventory.MobInventories;
+import net.minecraft.server.v1_8_R1.EntityInsentient;
+import net.minecraft.server.v1_8_R1.EntityLiving;
+import net.minecraft.server.v1_8_R1.NBTTagCompound;
 
 import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
+import org.bukkit.DyeColor;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Zombie;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 
 public class Lobby implements Listener{
 
@@ -24,11 +36,16 @@ public class Lobby implements Listener{
 	private GamePlayers players;
 	private Main instance;
 	
-	public Lobby(Main plugin){
+	public Lobby(Main plugin, FileConfiguration config){
 		this.instance = plugin;
 		this.createTimer();
-		
-		spawnMobs(blueLoc, redLoc, marksman, infiltrator, shredder);
+		World world = Bukkit.getWorld(config.getString("lobbyOptions.world"));
+		ConfigurationSection locations = config.getConfigurationSection("lobbyOptions.locations");
+		spawnMobs(configToLocation(locations.getConfigurationSection("blueSheep"), world),
+				configToLocation(locations.getConfigurationSection("redSheep"), world), 
+				configToLocation(locations.getConfigurationSection("marksman"), world), 
+				configToLocation(locations.getConfigurationSection("infiltrator"), world), 
+				configToLocation(locations.getConfigurationSection("shredder"), world));
 	}
 	
 	/*
@@ -39,11 +56,67 @@ public class Lobby implements Listener{
         p.sendPluginMessage(this, "BungeeCord", out.toByteArray());
     }
 	 */
-	@EventHandler
-	public void playerJoinEvent(PlayerJoinEvent event){
-		if(){
-			
+	private enum MobType{
+		BLUESHEEP,
+		REDSHEEP,
+		MARKSMAN,
+		INFILTRATOR,
+		SHREDDER;
+	}
+	
+	private void spawnMob(EntityType type, Location loc, MobType meta){
+		LivingEntity entity = (LivingEntity) loc.getWorld().spawnEntity(loc, type);
+		if(meta.equals(MobType.BLUESHEEP) || meta.equals(MobType.REDSHEEP)){
+			Sheep sheep = (Sheep) entity;
+			if(meta.equals(MobType.BLUESHEEP)){
+				sheep.setColor(DyeColor.BLUE);
+			}else if(meta.equals(MobType.REDSHEEP)){
+				sheep.setColor(DyeColor.RED);
+			}
+			sheep.setAdult();
+		}else{
+			Zombie zombie = (Zombie) entity;
+			zombie.setBaby(false);
+			zombie.setCustomName(meta.toString());
+			zombie.setCustomNameVisible(true);
 		}
+	
+		entity.setCanPickupItems(false);
+		entity.setMaxHealth(2000d);
+		entity.setHealth(2000d);
+		entity.setRemoveWhenFarAway(false);
+		entity.setMetadata("Ktar", new FixedMetadataValue(Main.instance, meta.toString()));
+		
+		EntityInsentient nmsEntity = (EntityInsentient) ((CraftLivingEntity) entity).getHandle();
+		NBTTagCompound tag = new NBTTagCompound();
+		nmsEntity.c(tag);
+		tag.setBoolean("NoAI", true);
+		EntityLiving el = nmsEntity;
+		el.a(tag);
+		
+	}
+	
+	private void spawnMobs(Location blueSheep,
+			Location redSheep, Location marksman,
+			Location infiltrator, Location shredder) {
+		this.spawnMob(EntityType.SHEEP, loc, meta);
+		
+	}
+
+	public static Location configToLocation(ConfigurationSection section){
+		return new Location (
+			Bukkit.getServer().getWorld(section.getString("world")),
+			Double.valueOf(section.getString("x")),
+			Double.valueOf(section.getString("y")),
+			Double.valueOf(section.getString("z")));
+	}
+	
+	public static Location configToLocation(ConfigurationSection section, World world){
+		return new Location (
+			world,
+			Double.valueOf(section.getString("x")),
+			Double.valueOf(section.getString("y")),
+			Double.valueOf(section.getString("z")));
 	}
 	
     private void createTimer() {
