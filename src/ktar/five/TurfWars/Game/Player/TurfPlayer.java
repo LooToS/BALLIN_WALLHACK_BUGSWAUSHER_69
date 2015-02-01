@@ -1,6 +1,6 @@
 package ktar.five.TurfWars.Game.Player;
 
-import ktar.five.TurfWars.Game.cooldowns.Cooldown;
+import ktar.five.TurfWars.Game.Cooling.Cooldown;
 import ktar.five.TurfWars.Game.Game;
 import ktar.five.TurfWars.Main;
 import org.bukkit.Bukkit;

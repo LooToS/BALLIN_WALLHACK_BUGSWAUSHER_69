@@ -5,7 +5,7 @@ import ktar.five.TurfWars.Game.Game;
 import ktar.five.TurfWars.Game.Info.GamePlayers;
 import ktar.five.TurfWars.Game.Info.GameStatus;
 import ktar.five.TurfWars.Game.Info.WorldInfo;
-import ktar.five.TurfWars.Game.cooldowns.Cooldown;
+import ktar.five.TurfWars.Game.Cooling.Cooldown;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;

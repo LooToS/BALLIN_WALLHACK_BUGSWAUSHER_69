@@ -1,14 +1,20 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Carter">
     <words>
+      <w>amnt</w>
       <w>blockgettercounter</w>
       <w>bytecode</w>
       <w>classpathentry</w>
       <w>codegen</w>
+      <w>cooldown</w>
+      <w>damager</w>
       <w>doub</w>
+      <w>gametitle</w>
+      <w>gametitlecountdown</w>
       <w>javabuilder</w>
       <w>javanature</w>
       <w>jdbc</w>
+      <w>proj</w>
       <w>respawn</w>
       <w>stmts</w>
       <w>vaultnew</w>

@@ -11,7 +11,7 @@ import ktar.five.TurfWars.Game.Info.Phase;
 import ktar.five.TurfWars.Game.Info.Phase.PhaseType;
 import ktar.five.TurfWars.Game.Player.Team;
 import ktar.five.TurfWars.Game.Player.TurfPlayer;
-import ktar.five.TurfWars.Game.cooldowns.TurfEvent;
+import ktar.five.TurfWars.Game.Cooling.TurfEvent;
 import ktar.five.TurfWars.Lobby.Lobby;
 
 import org.bukkit.Bukkit;
