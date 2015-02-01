@@ -16,4 +16,14 @@ public enum Team {
     private Team() {
 
     }
+    
+    public Team getOppositeTeam(){
+    	if(this == Team.RED){
+    		return Team.BLUE;
+    	}else if(this == Team.BLUE){
+    		return Team.RED;
+    	}else{
+    		return null;
+    	}
+    }
 }

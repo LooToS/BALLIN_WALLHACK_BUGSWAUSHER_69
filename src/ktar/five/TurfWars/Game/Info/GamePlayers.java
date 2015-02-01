@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.entity.Player;
+
 import ktar.five.TurfWars.Main;
 
 public class GamePlayers {
@@ -112,11 +114,36 @@ public class GamePlayers {
             blueTeam.put(player.playerUUID, player);
         } else if (team == Team.RED) {
             redTeam.put(player.playerUUID, player);
+        }else if(team == Team.SPECTATOR){
+        	spectators.put(player.playerUUID, player);
         }
     }
     
+    public boolean switchTeam(TurfPlayer player){
+    	Team team = getPlayerTeam(player);
+    	if(!isFull(team.getOppositeTeam())){
+        	remove(player);
+        	putInTeam(team.getOppositeTeam(), player);
+        	return true;
+    	}
+    	return false;
+    }
     
-    public void updateDatabase(Main instance){
+    public void removeFromTeam(TurfPlayer player, Team team){
+    	if(team == Team.BLUE){
+    		this.blueTeam.remove(player);
+    	}else if(team == Team.RED){
+    		this.redTeam.remove(player)
+    	}else if(team == Team.SPECTATOR){
+    		this.spectators.remove(player);
+    	}
+    }
+    
+    public void remove(TurfPlayer player){
+    	this.removeFromTeam(player, getPlayerTeam(player));
+    }
+    
+    public void updateDatabase(Main instance){//TODO
     	List<String> stmts = new ArrayList<>();
     	for(TurfPlayer p : this.getAll().values()){
     		stmts.add(p.getQuery());

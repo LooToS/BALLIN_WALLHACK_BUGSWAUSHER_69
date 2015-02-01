@@ -6,7 +6,6 @@ import ktar.five.TurfWars.Game.Info.GamePlayers;
 import ktar.five.TurfWars.Game.Info.GameStatus;
 import ktar.five.TurfWars.Game.Info.WorldInfo;
 import ktar.five.TurfWars.Game.cooldowns.Cooldown;
-import ktar.five.inventory.MobInventories;
 import net.minecraft.server.v1_8_R1.EntityInsentient;
 import net.minecraft.server.v1_8_R1.EntityLiving;
 import net.minecraft.server.v1_8_R1.NBTTagCompound;
@@ -18,7 +17,6 @@ import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Sheep;
@@ -33,7 +31,7 @@ public class Lobby implements Listener{
 	public GameStatus status;
 	private int seconds;
 	private int lobbyCountdown = 50;
-	private GamePlayers players;
+	public static GamePlayers players;
 	private Main instance;
 	
 	public Lobby(Main plugin, FileConfiguration config){
@@ -41,87 +39,11 @@ public class Lobby implements Listener{
 		this.createTimer();
 		World world = Bukkit.getWorld(config.getString("lobbyOptions.world"));
 		ConfigurationSection locations = config.getConfigurationSection("lobbyOptions.locations");
-		spawnMobs(configToLocation(locations.getConfigurationSection("blueSheep"), world),
-				configToLocation(locations.getConfigurationSection("redSheep"), world), 
-				configToLocation(locations.getConfigurationSection("marksman"), world), 
-				configToLocation(locations.getConfigurationSection("infiltrator"), world), 
-				configToLocation(locations.getConfigurationSection("shredder"), world));
-	}
-	
-	/*
-	 * if (commandLabel.equalsIgnoreCase("game")) {
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF("Connect");
-        out.writeUTF("game");
-        p.sendPluginMessage(this, "BungeeCord", out.toByteArray());
-    }
-	 */
-	public static enum MobType{
-		BLUESHEEP,
-		REDSHEEP,
-		MARKSMAN,
-		INFILTRATOR,
-		SHREDDER;
-	}
-	
-	private void spawnMob(Location loc, MobType meta){
-		LivingEntity entity;
-		if(meta.equals(MobType.BLUESHEEP) || meta.equals(MobType.REDSHEEP)){
-			entity = (LivingEntity) loc.getWorld().spawnEntity(loc, EntityType.SHEEP);
-			Sheep sheep = (Sheep) entity;
-			if(meta.equals(MobType.BLUESHEEP)){
-				sheep.setColor(DyeColor.BLUE);
-			}else if(meta.equals(MobType.REDSHEEP)){
-				sheep.setColor(DyeColor.RED);
-			}
-			sheep.setAdult();
-		}else{
-			entity = (LivingEntity) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
-			Zombie zombie = (Zombie) entity;
-			zombie.setBaby(false);
-			zombie.setCustomName(meta.toString());
-			zombie.setCustomNameVisible(true);
-		}
-	
-		entity.setCanPickupItems(false);
-		entity.setMaxHealth(2000d);
-		entity.setHealth(2000d);
-		entity.setRemoveWhenFarAway(false);
-		entity.setMetadata("Ktar", new FixedMetadataValue(Main.instance, meta.toString()));
-		
-		EntityInsentient nmsEntity = (EntityInsentient) ((CraftLivingEntity) entity).getHandle();
-		NBTTagCompound tag = new NBTTagCompound();
-		nmsEntity.c(tag);
-		tag.setBoolean("NoAI", true);
-		EntityLiving el = nmsEntity;
-		el.a(tag);
-		
-	}
-	
-	private void spawnMobs(Location blueSheep,
-			Location redSheep, Location marksman,
-			Location infiltrator, Location shredder) {
-		this.spawnMob(blueSheep, MobType.BLUESHEEP);
-		this.spawnMob(redSheep, MobType.REDSHEEP);
-		this.spawnMob(marksman, MobType.MARKSMAN);
-		this.spawnMob(infiltrator, MobType.INFILTRATOR);
-		this.spawnMob(shredder, MobType.SHREDDER);
-	}
-
-	public static Location configToLocation(ConfigurationSection section){
-		return new Location (
-			Bukkit.getServer().getWorld(section.getString("world")),
-			Double.valueOf(section.getString("x")),
-			Double.valueOf(section.getString("y")),
-			Double.valueOf(section.getString("z")));
-	}
-	
-	public static Location configToLocation(ConfigurationSection section, World world){
-		return new Location (
-			world,
-			Double.valueOf(section.getString("x")),
-			Double.valueOf(section.getString("y")),
-			Double.valueOf(section.getString("z")));
+		LobbyUtils.spawnMobs(LobbyUtils.configToLocation(locations.getConfigurationSection("blueSheep"), world),
+				LobbyUtils.configToLocation(locations.getConfigurationSection("redSheep"), world), 
+				LobbyUtils.configToLocation(locations.getConfigurationSection("marksman"), world), 
+				LobbyUtils.configToLocation(locations.getConfigurationSection("infiltrator"), world), 
+				LobbyUtils.configToLocation(locations.getConfigurationSection("shredder"), world));
 	}
 	
     private void createTimer() {
