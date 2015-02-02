@@ -65,22 +65,4 @@ public class LobbyUtils {
 		spawnMob(infiltrator, MobType.INFILTRATOR);
 		spawnMob(shredder, MobType.SHREDDER);
 	}
-
-	static Location configToLocation(ConfigurationSection section){
-		return new Location (
-				Bukkit.getServer().getWorld(section.getString("world")),
-				Double.valueOf(section.getString("x")),
-				Double.valueOf(section.getString("y")),
-				Double.valueOf(section.getString("z")));
-	}
-
-	static Location configToLocation(ConfigurationSection section, World world){
-		return new Location (
-				world,
-				Double.valueOf(section.getString("x")),
-				Double.valueOf(section.getString("y")),
-				Double.valueOf(section.getString("z")));
-	}
-
-
 }

@@ -1,5 +1,6 @@
 package ktar.five.TurfWars.Lobby;
 
+import ktar.five.TurfWars.GenericUtils;
 import ktar.five.TurfWars.Main;
 import ktar.five.TurfWars.Game.Game;
 import ktar.five.TurfWars.Game.Cooling.Cooldown;
@@ -28,17 +29,17 @@ public class Lobby implements Listener{
 		this.createTimer();
 		World world = Bukkit.getWorld(config.getString("lobbyOptions.world"));
 		ConfigurationSection locations = config.getConfigurationSection("lobbyOptions.locations");
-		LobbyUtils.spawnMobs(LobbyUtils.configToLocation(locations.getConfigurationSection("blueSheep"), world),
-				LobbyUtils.configToLocation(locations.getConfigurationSection("redSheep"), world), 
-				LobbyUtils.configToLocation(locations.getConfigurationSection("marksman"), world), 
-				LobbyUtils.configToLocation(locations.getConfigurationSection("infiltrator"), world), 
-				LobbyUtils.configToLocation(locations.getConfigurationSection("shredder"), world));
+		LobbyUtils.spawnMobs(GenericUtils.configToLocation(locations.getConfigurationSection("blueSheep"), world),
+				GenericUtils.configToLocation(locations.getConfigurationSection("redSheep"), world), 
+				GenericUtils.configToLocation(locations.getConfigurationSection("marksman"), world), 
+				GenericUtils.configToLocation(locations.getConfigurationSection("infiltrator"), world), 
+				GenericUtils.configToLocation(locations.getConfigurationSection("shredder"), world));
 		
-		info = new WorldManager(LobbyUtils.configToLocation(locations.getConfigurationSection("lobbySpawn"), world), 
-				LobbyUtils.configToLocation(locations.getConfigurationSection("redSpawn"), world), 
-				LobbyUtils.configToLocation(locations.getConfigurationSection("blueSpawn"), world), 
-				LobbyUtils.configToLocation(locations.getConfigurationSection("boundaryOne"), world), 
-				LobbyUtils.configToLocation(locations.getConfigurationSection("boundaryTwo"), world));
+		info = new WorldManager(GenericUtils.configToLocation(locations.getConfigurationSection("lobbySpawn"), world), 
+				GenericUtils.configToLocation(locations.getConfigurationSection("redSpawn"), world), 
+				GenericUtils.configToLocation(locations.getConfigurationSection("blueSpawn"), world), 
+				GenericUtils.configToLocation(locations.getConfigurationSection("boundaryOne"), world), 
+				GenericUtils.configToLocation(locations.getConfigurationSection("boundaryTwo"), world));
 	}
 	
     private void createTimer() {
@@ -60,7 +61,7 @@ public class Lobby implements Listener{
             if (!players.gameFull()) {
                 seconds = 0;
                 this.updateStatus(GameStatus.WAITING_FOR_PLAYERS);
-            } else if (players.gameFull() && game.seconds == lobbyCountdown) {
+            } else if (players.gameFull() && seconds == lobbyCountdown) {
                 this.startGame();
             }
         } else if (status == GameStatus.STARTING || status == GameStatus.IN_PROGRESS || status == GameStatus.ENDING){
