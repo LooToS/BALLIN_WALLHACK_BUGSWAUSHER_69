@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import ktar.five.TurfWars.Game.Player.Kit;
 import ktar.five.TurfWars.Main;
-import ktar.five.TurfWars.Game.Info.ClayManager;
+import ktar.five.TurfWars.Game.Info.WorldManager;
 import ktar.five.TurfWars.Game.Info.GamePlayers;
 import ktar.five.TurfWars.Game.Info.GameStatus;
 import ktar.five.TurfWars.Game.Info.Phase;
@@ -39,7 +39,7 @@ public class Game implements Listener {
 	public int seconds, totalTime, blockgettercounter;
 	public Phase phase;
 	public GamePlayers players;
-	public ClayManager clayManager;
+	public WorldManager worldManager;
 	public final Lobby lobby;
 
 	public Game(String serverID, Main instance, Lobby lobby) {
@@ -48,14 +48,14 @@ public class Game implements Listener {
 		this.lobby = lobby;
 	}
 
-	public void start(GamePlayers players) {
+	public void start(GamePlayers players, WorldManager manager) {
 		this.seconds = 0;
 		this.players = players;
-		this.clayManager = new ClayManager(lobby.info);
+		this.worldManager = manager;
 		for (TurfPlayer p : players.redTeam.values())
-			p.getPlayer().teleport(lobby.info.redSpawn);
+			p.getPlayer().teleport(worldManager.redSpawn);
 		for (TurfPlayer p : players.blueTeam.values())
-			p.getPlayer().teleport(lobby.info.blueSpawn);
+			p.getPlayer().teleport(worldManager.blueSpawn);
 		phase = Phase.startCount;
 	}
 
@@ -199,7 +199,7 @@ public class Game implements Listener {
 	public void projectileHitEvent(ProjectileHitEvent event) {
 		Player shooter = Bukkit.getPlayer((UUID) event.getEntity().getMetadata("Arrow").get(0).value());
 		if(event.getEntity().isOnGround()){
-			clayManager.removeIfIsPlacedBlock(event.getEntity().getLocation().getBlock());
+			worldManager.removeIfIsPlacedBlock(event.getEntity().getLocation().getBlock());
 			players.getTurfPlayer(shooter.getUniqueId()).brokeBlock();
 		}
 
@@ -251,7 +251,7 @@ public class Game implements Listener {
 		//end the game completely
 
 
-		this.clayManager = null;
+		this.worldManager = null;
 		this.phase = null;
 		this.players = null;
 	}
@@ -260,10 +260,10 @@ public class Game implements Listener {
 	@EventHandler
 	public void blockPlaceEvent(BlockPlaceEvent event) {
 		if(this.phase.getType() == PhaseType.BUILDING){
-			if(!this.clayManager.canBePlaced(event.getBlockPlaced(), players.getPlayerTeam(event.getPlayer().getUniqueId()))){
+			if(!this.worldManager.canBePlaced(event.getBlockPlaced(), players.getPlayerTeam(event.getPlayer().getUniqueId()))){
 				event.setCancelled(true);
 			}else{
-				clayManager.addPlacedBlock(event.getBlockPlaced());
+				worldManager.addPlacedBlock(event.getBlockPlaced());
 				players.getTurfPlayer(event.getPlayer().getUniqueId()).placedBlock();
 			}
 		}else{
@@ -277,11 +277,11 @@ public class Game implements Listener {
 		TurfPlayer player = players.getAll().get(p.getUniqueId());
 		Team team = players.getPlayerTeam(player);
 		if (team == Team.BLUE) {
-			p.teleport(lobby.info.blueSpawn);
-			clayManager.addClays(Team.RED, phase.getAmount());
+			p.teleport(worldManager.blueSpawn);
+			worldManager.addClays(Team.RED, phase.getAmount());
 		} else if (team == Team.RED) {
-			p.teleport(lobby.info.redSpawn);
-			clayManager.addClays(Team.BLUE, phase.getAmount());
+			p.teleport(worldManager.redSpawn);
+			worldManager.addClays(Team.BLUE, phase.getAmount());
 		}
 		player.addDeath();
 		player.resetInventory();

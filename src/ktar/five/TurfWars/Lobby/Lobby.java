@@ -4,7 +4,7 @@ import ktar.five.TurfWars.Main;
 import ktar.five.TurfWars.Game.Game;
 import ktar.five.TurfWars.Game.Info.GamePlayers;
 import ktar.five.TurfWars.Game.Info.GameStatus;
-import ktar.five.TurfWars.Game.Info.WorldInfo;
+import ktar.five.TurfWars.Game.Info.WorldManager;
 import ktar.five.TurfWars.Game.Cooling.Cooldown;
 
 import org.bukkit.Bukkit;
@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 public class Lobby implements Listener{
 
 	private Game game;	
-	public WorldInfo info;
+	public WorldManager info;
 	public GameStatus status;
 	private int seconds;
 	private int lobbyCountdown = 50;
@@ -33,6 +33,12 @@ public class Lobby implements Listener{
 				LobbyUtils.configToLocation(locations.getConfigurationSection("marksman"), world), 
 				LobbyUtils.configToLocation(locations.getConfigurationSection("infiltrator"), world), 
 				LobbyUtils.configToLocation(locations.getConfigurationSection("shredder"), world));
+		
+		info = new WorldManager(LobbyUtils.configToLocation(locations.getConfigurationSection("lobbySpawn"), world), 
+				LobbyUtils.configToLocation(locations.getConfigurationSection("redSpawn"), world), 
+				LobbyUtils.configToLocation(locations.getConfigurationSection("blueSpawn"), world), 
+				LobbyUtils.configToLocation(locations.getConfigurationSection("boundaryOne"), world), 
+				LobbyUtils.configToLocation(locations.getConfigurationSection("boundaryTwo"), world));
 	}
 	
     private void createTimer() {
@@ -63,8 +69,7 @@ public class Lobby implements Listener{
     }
     
     private void startGame(){
-    	WorldInfo info;
-    	game.start(players);
+    	game.start(players, info);
     }
     
     private void endGame(){

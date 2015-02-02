@@ -2,13 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="C:/Users/Carter/Downloads/New folder/spigot-1.8-R0.1-SNAPSHOT-latest.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="https://hub.spigotmc.org/javadocs/spigot/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Carter/Downloads/New folder/Vaultnew.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Carter/Downloads/TitleAPI.jar"/>
-	<classpathentry kind="lib" path="C:/Users/CGale9024/Desktop/bukkit-1.7.9-R0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/CGale9024/Downloads/bukkit-1.7.9-R0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

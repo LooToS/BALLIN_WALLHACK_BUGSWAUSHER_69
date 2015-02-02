@@ -3,34 +3,51 @@ package ktar.five.TurfWars.Game.Info;
 import java.util.ArrayList;
 import java.util.List;
 
+import ktar.five.TurfWars.Main;
 import ktar.five.TurfWars.Game.Player.Team;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class ClayManager {
+public class WorldManager {
 
 	public List<Blocks> turfBlocks;
 	public List<Location> placedBlocks;
 	public Location min,max;
+	
+    public final Location lobbySpawn;
+    public final Location redSpawn;
+    public final Location blueSpawn;
+    public final Location boxCorner1;
+    public final Location boxCorner2;
 
-	public ClayManager(WorldInfo info) {
+	public WorldManager(Location lobbySpawn, Location redSpawn,
+    		Location blueSpawn, Location boxCorner1,
+    		Location boxCorner2) {
+		
+        this.lobbySpawn = lobbySpawn;
+        this.redSpawn = redSpawn;
+        this.blueSpawn = blueSpawn;
+        this.boxCorner1 = boxCorner1;
+        this.boxCorner2 = boxCorner2;
+		
 		turfBlocks = new ArrayList<>();
 		placedBlocks = new ArrayList<>();
-		int xmin = Math.min(info.boxCorner2.getBlockX(), info.boxCorner1.getBlockZ());
-		int ymin = Math.min(info.boxCorner2.getBlockY(), info.boxCorner1.getBlockY());
-		int zmin = Math.min(info.boxCorner2.getBlockZ(), info.boxCorner1.getBlockZ());
+		int xmin = Math.min(boxCorner2.getBlockX(), boxCorner1.getBlockZ());
+		int ymin = Math.min(boxCorner2.getBlockY(), boxCorner1.getBlockY());
+		int zmin = Math.min(boxCorner2.getBlockZ(), boxCorner1.getBlockZ());
 
-		int xmax = Math.min(info.boxCorner2.getBlockX(), info.boxCorner1.getBlockZ());
-		int ymax = Math.min(info.boxCorner2.getBlockY(), info.boxCorner1.getBlockY());
-		int zmax = Math.min(info.boxCorner2.getBlockZ(), info.boxCorner1.getBlockZ());
+		int xmax = Math.min(boxCorner2.getBlockX(), boxCorner1.getBlockZ());
+		int ymax = Math.min(boxCorner2.getBlockY(), boxCorner1.getBlockY());
+		int zmax = Math.min(boxCorner2.getBlockZ(), boxCorner1.getBlockZ());
 
 		for(int x = xmin ; x <= xmax ; x++){
 			List<Location> blocks = new ArrayList<>();
 			for(int y = ymin ; y <= ymax ; y++){
 				for(int z = zmin ; z <= zmax ; z++){
-					blocks.add(info.boxCorner2.getWorld().getBlockAt(x, y, z).getLocation());
+					blocks.add(boxCorner2.getWorld().getBlockAt(x, y, z).getLocation());
 				}
 			}
 			turfBlocks.add(new Blocks(Team.SPECTATOR, blocks));
@@ -41,7 +58,7 @@ public class ClayManager {
 				if(b.getBlock().getType().equals(Material.SPONGE)){
 					b.getBlock().setType(Material.STAINED_CLAY);
 					b.getBlock().setData(Team.BLUE.color);
-					b.getBlock().setMetadata("floor", new FixedMetadataValue(plugin, Team.BLUE));
+					b.getBlock().setMetadata("floor", new FixedMetadataValue(Main.instance, Team.BLUE));
 				}	
 			}
 			turfBlocks.get(i).team = Team.BLUE;
@@ -52,7 +69,7 @@ public class ClayManager {
 				if(b.getBlock().getType().equals(Material.SPONGE)){
 					b.getBlock().setType(Material.STAINED_CLAY);
 					b.getBlock().setData(Team.RED.color);
-					b.getBlock().setMetadata("floor", new FixedMetadataValue(plugin, Team.RED));
+					b.getBlock().setMetadata("floor", new FixedMetadataValue(Main.instance, Team.RED));
 				}	
 			}
 			turfBlocks.get(i).team = Team.RED;
