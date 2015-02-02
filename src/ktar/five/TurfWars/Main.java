@@ -21,7 +21,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Main extends JavaPlugin implements PluginMessageListener{
-	
+
 	public final MySQL sql = new MySQL(this, null, null, null, null, null);
 	Connection c = null;
 	public static Economy economy = null;
@@ -32,7 +32,7 @@ public class Main extends JavaPlugin implements PluginMessageListener{
 	public void onLoad(){
 		instance = this;
 	}
-	
+
 	@Override
 	public void onEnable() {
 		try {
@@ -80,12 +80,12 @@ public class Main extends JavaPlugin implements PluginMessageListener{
 			in.readFully(msgbytes);
 
 			//DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
-			
+
 			//This is where we will send the status back.
 			String status = "Something";
 			sendBungeeGameStatus("LobbyBungeeName", status);
-			
-			
+
+
 		}else if (subchannel.equals("GameStatusReturn")) {
 			short len = in.readShort();
 			byte[] msgbytes = new byte[len];
@@ -98,78 +98,78 @@ public class Main extends JavaPlugin implements PluginMessageListener{
 			} catch (IOException e) {
 				status = "Error";
 			}
-			
+
 			//Set status somewhere..... For gui.... Hashmap???/
 		}
 	}
-	
-	
+
+
 	public void getBungeeGameStatus(String BungeeName){
 		ByteArrayOutputStream b = new ByteArrayOutputStream();
 		DataOutputStream out = new DataOutputStream(b);
-        try
-        {
-            out.writeUTF("Forward");
-            out.writeUTF(BungeeName);
-            out.writeUTF("GameStatus");
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-       
-        if (Bukkit.getOnlinePlayers().size() > 0)
-        {
-            Player p = Bukkit.getOnlinePlayers().iterator().next();
-            p.sendPluginMessage(this, "BungeeCord", b.toByteArray());
-        }
+		try
+		{
+			out.writeUTF("Forward");
+			out.writeUTF(BungeeName);
+			out.writeUTF("GameStatus");
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		if (Bukkit.getOnlinePlayers().size() > 0)
+		{
+			Player p = Bukkit.getOnlinePlayers().iterator().next();
+			p.sendPluginMessage(this, "BungeeCord", b.toByteArray());
+		}
 	}
-	
+
 	public void sendBungeeGameStatus(String BungeeName, String Status){
 		ByteArrayOutputStream b = new ByteArrayOutputStream();
 		DataOutputStream out = new DataOutputStream(b);
-        try
-        {
-            out.writeUTF("Forward");
-            out.writeUTF(BungeeName);
-            out.writeUTF("GameStatusReturn");
-            ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
-            DataOutputStream msgout = new DataOutputStream(msgbytes);
-            msgout.writeUTF(Status);
+		try
+		{
+			out.writeUTF("Forward");
+			out.writeUTF(BungeeName);
+			out.writeUTF("GameStatusReturn");
+			ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
+			DataOutputStream msgout = new DataOutputStream(msgbytes);
+			msgout.writeUTF(Status);
 
-            out.write(msgbytes.toByteArray());
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-       
-        if (Bukkit.getOnlinePlayers().size() > 0)
-        {
-            Player p = Bukkit.getOnlinePlayers().iterator().next();
-            p.sendPluginMessage(this, "BungeeCord", b.toByteArray());
-        }
+			out.write(msgbytes.toByteArray());
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		if (Bukkit.getOnlinePlayers().size() > 0)
+		{
+			Player p = Bukkit.getOnlinePlayers().iterator().next();
+			p.sendPluginMessage(this, "BungeeCord", b.toByteArray());
+		}
 	}
 
 	public void getBungeePlayerCount(String BungeeName){
-        ByteArrayOutputStream b = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(b);
-        try
-        {      
-                out.writeUTF("PlayerCount");
-                out.writeUTF(BungeeName);
-        }
-        catch (IOException e)
-        {
-                e.printStackTrace();
-        }
-       
-        if (Bukkit.getOnlinePlayers().size() > 0)
-        {
-                Player p = Bukkit.getOnlinePlayers().iterator().next();
-                p.sendPluginMessage(this, "BungeeCord", b.toByteArray());
-        }
-}
+		ByteArrayOutputStream b = new ByteArrayOutputStream();
+		DataOutputStream out = new DataOutputStream(b);
+		try
+		{      
+			out.writeUTF("PlayerCount");
+			out.writeUTF(BungeeName);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		if (Bukkit.getOnlinePlayers().size() > 0)
+		{
+			Player p = Bukkit.getOnlinePlayers().iterator().next();
+			p.sendPluginMessage(this, "BungeeCord", b.toByteArray());
+		}
+	}
 
 
 
