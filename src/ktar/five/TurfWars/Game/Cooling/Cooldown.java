@@ -1,10 +1,10 @@
 package ktar.five.TurfWars.Game.Cooling;
 
-import org.bukkit.Bukkit;
-
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
+
+import org.bukkit.Bukkit;
 
 public class Cooldown {
 

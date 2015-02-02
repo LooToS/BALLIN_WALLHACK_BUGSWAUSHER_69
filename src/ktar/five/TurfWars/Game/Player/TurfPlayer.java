@@ -1,8 +1,13 @@
 package ktar.five.TurfWars.Game.Player;
 
-import ktar.five.TurfWars.Game.Cooling.Cooldown;
-import ktar.five.TurfWars.Game.Game;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.UUID;
+
 import ktar.five.TurfWars.Main;
+import ktar.five.TurfWars.Game.Game;
+import ktar.five.TurfWars.Game.Cooling.Cooldown;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,10 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.UUID;
 
 public class TurfPlayer {
 
