@@ -31,10 +31,11 @@ public class TurfPlayer {
 	public double multiplier, moneyGotThisRound;
 	public boolean canVenture, canMove, isSuperSlowed;
 
-	public TurfPlayer(int id, Main instance) {
+	public TurfPlayer(UUID uu) {
 		try {
-			this.id = id;
-			ResultSet rs = instance.sql.querySQL("SELECT * FROM UserStats WHERE id = " + id);
+			this.playerUUID = uu;
+			ResultSet rs = Main.instance.sql.querySQL("SELECT * FROM UserStats WHERE uuid = " + uu.toString());
+			this.id = rs.getInt("id");
 			this.wins = rs.getInt("wins");
 			this.defeats = rs.getInt("defeats");
 			this.totalKills = rs.getInt("totalKills");
@@ -51,6 +52,7 @@ public class TurfPlayer {
 			this.multiplier = rs.getDouble("multiplier");
 			this.kitsUnlocked = rs.getInt("kitsUnlocked");
 			rs.close();
+			this.kit = Kit.MARKSMAN;
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
@@ -139,7 +141,7 @@ public class TurfPlayer {
 			shortestGame = gameTime;
 		if (gameTime > longestGame)
 			longestGame = gameTime;
-		Main.economy.depositPlayer(this.getPlayer().getPlayer(), this.moneyGotThisRound);
+		Main.economy.depositPlayer(this.getPlayer().getPlayer(), this.moneyGotThisRound*multiplier);
 	}
 
 	public void addDefeat(int gameTime) {
@@ -150,7 +152,8 @@ public class TurfPlayer {
 			shortestGame = gameTime;
 		if (gameTime > longestGame)
 			longestGame = gameTime;
-		Main.economy.depositPlayer(this.getPlayer().getPlayer(), this.moneyGotThisRound);
+		
+		Main.economy.depositPlayer(this.getPlayer().getPlayer(), this.moneyGotThisRound*multiplier);
 	}
 
 	public void addDeath() {
@@ -189,7 +192,7 @@ public class TurfPlayer {
 	}
 
 	public String getQuery(){
-		return "query";
+		return "query";--needstobedone;
 		//do this
 	}
 

@@ -31,7 +31,7 @@ public class GamePlayers {
     }
     
     public TurfPlayer getTurfPlayer(UUID uu){
-    	return getAll().get(uu);
+    	return getAll().get(uu) != null ? getAll().get(uu) : new TurfPlayer(uu);
     }
     
     public Team getPlayerTeam(UUID uu){
@@ -80,8 +80,8 @@ public class GamePlayers {
         }
     }
 
-    public boolean playerAlreadyInGame(TurfPlayer player) {
-        return getPlayerTeam(player) != null;
+    public boolean playerInGame(UUID uu) {
+        return this.getAll().containsKey(uu) == true;
     }
 
     public Team getPlayerTeam(TurfPlayer player) {
@@ -97,7 +97,7 @@ public class GamePlayers {
     }
 
     public boolean putInLowerTeam(TurfPlayer player) {
-        if (playerAlreadyInGame(player)) {
+        if (playerInGame(player.playerUUID)) {
             return false;
         } else {
             putInTeam(getTeamWithLess(), player);
@@ -143,14 +143,14 @@ public class GamePlayers {
     	this.removeFromTeam(player, getPlayerTeam(player));
     }
     
-    public void updateDatabase(Main instance){//TODO
+    public void updateDatabase(){
     	List<String> stmts = new ArrayList<>();
     	for(TurfPlayer p : this.getAll().values()){
     		stmts.add(p.getQuery());
     	}
     	
     	try {
-			instance.sql.sendBatchStatement(stmts.toArray(new String[stmts.size()]));
+			Main.instance.sql.sendBatchStatement(stmts.toArray(new String[stmts.size()]));
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}

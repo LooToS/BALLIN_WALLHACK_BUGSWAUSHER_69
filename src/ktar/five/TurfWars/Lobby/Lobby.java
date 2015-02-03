@@ -16,9 +16,9 @@ import org.bukkit.event.Listener;
 
 public class Lobby implements Listener{
 
-	private Game game;	
-	public WorldManager info;
-	public GameStatus status;
+	private static Game game;	
+	public WorldManager info; 
+	public static GameStatus status;
 	private int seconds;
 	private int lobbyCountdown = 50;
 	public static GamePlayers players;
@@ -40,6 +40,7 @@ public class Lobby implements Listener{
 				GenericUtils.configToLocation(locations.getConfigurationSection("blueSpawn"), world), 
 				GenericUtils.configToLocation(locations.getConfigurationSection("boundaryOne"), world), 
 				GenericUtils.configToLocation(locations.getConfigurationSection("boundaryTwo"), world));
+		status = GameStatus.WAITING_FOR_PLAYERS;
 	}
 	
     private void createTimer() {
@@ -56,11 +57,11 @@ public class Lobby implements Listener{
         seconds++;
         if (status == GameStatus.WAITING_FOR_PLAYERS && players.gameFull()) {
             seconds = 0;
-            this.updateStatus(GameStatus.LOBBY_COUNTDOWN);
+            updateStatus(GameStatus.LOBBY_COUNTDOWN);
         } else if (status == GameStatus.LOBBY_COUNTDOWN) {
             if (!players.gameFull()) {
                 seconds = 0;
-                this.updateStatus(GameStatus.WAITING_FOR_PLAYERS);
+                updateStatus(GameStatus.WAITING_FOR_PLAYERS);
             } else if (players.gameFull() && seconds == lobbyCountdown) {
                 this.startGame();
             }
@@ -70,17 +71,19 @@ public class Lobby implements Listener{
     }
     
     private void startGame(){
-    	game.start(players, info);
+    	game.start(info);
     }
     
     private void endGame(){
     	
     }
 
-	public void updateStatus(GameStatus status) {
-		this.status = status;
-		//update database
-		
+	public static void updateStatus(GameStatus newstatus) {
+		status = newstatus;
+	}
+	
+	public static Game getGame(){
+		return game;
 	}
 	
 }
