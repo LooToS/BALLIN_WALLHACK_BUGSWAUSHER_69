@@ -25,6 +25,7 @@ public class Main extends JavaPlugin implements PluginMessageListener{
 	Connection c = null;
 	public static Economy economy = null;
 
+	
 	public static Main instance = null;
 
 	@Override
