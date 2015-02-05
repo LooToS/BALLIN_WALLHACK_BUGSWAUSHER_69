@@ -1,8 +1,10 @@
 package ktar.five.TurfWars.hub;
 
 import ktar.five.TurfWars.Main;
-
+import net.minecraft.server.v1_8_R1.EntityInsentient;
+import net.minecraft.server.v1_8_R1.NBTTagCompound;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.metadata.FixedMetadataValue;

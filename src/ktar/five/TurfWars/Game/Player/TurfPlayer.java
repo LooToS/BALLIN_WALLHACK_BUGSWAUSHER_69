@@ -49,7 +49,6 @@ public class TurfPlayer {
 			this.arrowsShot = rs.getInt("arrowsShot");
 			this.blocksDestroyed = rs.getInt("blocksDestroyed");
 			this.blocksPlaced = rs.getInt("blocksPlaced");
-			this.multiplier = rs.getDouble("multiplier");
 			this.kitsUnlocked = rs.getInt("kitsUnlocked");
 			rs.close();
 			this.kit = Kit.MARKSMAN;
@@ -71,7 +70,7 @@ public class TurfPlayer {
 	}
 
 	public boolean hasKitUnlocked(Kit kit){
-		if(kitsUnlocked == 0){
+		if(kitsUnlocked == 3){
 			return true;
 		}else if (kit == Kit.SHREDDER) {
 			return kitsUnlocked == 2;
@@ -108,9 +107,9 @@ public class TurfPlayer {
 
 	public void unlockKit(Kit kit){
 		if(this.hasKitUnlocked(Kit.INFILTRATOR) && kit.equals(Kit.SHREDDER)){
-			kitsUnlocked = 0;
+			kitsUnlocked = 3;
 		}else if (this.hasKitUnlocked(Kit.SHREDDER) && kit.equals(Kit.INFILTRATOR)){
-			kitsUnlocked = 0;
+			kitsUnlocked = 3;
 		}else if (!this.hasKitUnlocked(Kit.INFILTRATOR) && kit.equals(Kit.SHREDDER)){
 			kitsUnlocked = 2;
 		}else if (kit.equals(Kit.INFILTRATOR)){
@@ -192,8 +191,14 @@ public class TurfPlayer {
 	}
 
 	public String getQuery(){
-		return "query";--needstobedone;
-		//do this
+		return "INSERT INTO UserStats (uuid, wins, defeats, totalKills, totalDeaths, topKillsPerMatch, shortestGame, longestGame" +
+				"topKillStreak, arrowsShot, blocksDestroyed, blocksPlaced, kitsUnlocked) " +
+				"VALUES (" + this.playerUUID.toString() + ", " + this.wins  + ", " + this.defeats  + ", " + this.totalKills  + ", " + this.totalDeaths  + ", " +
+				this.topKillsPerMatch  + ", " + this.shortestGame  + ", " + this.longestGame  + ", " + this.topKillStreak  + ", " + this.arrowsShot
+				+ ", " + this.blocksDestroyed  + ", " + this.blocksPlaced  + ", " + this.kitsUnlocked + ") " +
+				"ON DUPLICATE KEY UPDATE UserStats SET ( wins = "+ this.wins  + ", defeats = " + this.defeats  + ", totalKills = " + this.totalKills  + ", totalDeaths =" + this.totalDeaths  + ", topKillsPerMatch = " +
+		this.topKillsPerMatch  + ", shortestGame = " + this.shortestGame  + ", longestGame = " + this.longestGame  + ", topKillStreak = " + this.topKillStreak  + ", arrowsShot = " + this.arrowsShot
+				+ ", blocksDestroyed = " + this.blocksDestroyed  + ", blocksPlaced = " + this.blocksPlaced  + ", kitsUnlocked = " + this.kitsUnlocked + ")" ;
 	}
 
 	public void resetInventory() {

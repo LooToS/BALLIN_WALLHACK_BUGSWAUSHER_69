@@ -53,7 +53,7 @@ public class GameListeners {
 					if (Lobby.players.areOnSameTeam(damaged.getUniqueId(), damager.getUniqueId())) {
 						event.setDamage(0D);
 						event.setCancelled(true);
-					}else if (((Damageable) damaged).getHealth() <= 0) {
+					}else if ((double) ((Damageable) damaged).getHealth() <= 0) {
 						TurfPlayer player = Lobby.players.getAll().get(damager.getUniqueId());
 						player.addKill();
 						damaged.setHealth(20D);
