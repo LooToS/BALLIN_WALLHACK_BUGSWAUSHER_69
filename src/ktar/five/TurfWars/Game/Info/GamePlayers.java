@@ -102,7 +102,7 @@ public class GamePlayers {
     }
 
     public byte getTeamByte(TurfPlayer player) {
-        return this.getPlayerTeam(player).color;
+        return getPlayerTeam(player).color;
     }
 
     public void putInTeam(Team team, TurfPlayer player) {

@@ -1,13 +1,13 @@
 package ktar.five.TurfWars.Game;
 
-import ktar.five.TurfWars.Main;
+import com.connorlinfoot.titleapi.TitleAPI;
 import ktar.five.TurfWars.Game.Info.GameStatus;
 import ktar.five.TurfWars.Game.Info.Phase;
 import ktar.five.TurfWars.Game.Info.WorldManager;
 import ktar.five.TurfWars.Game.Player.Team;
 import ktar.five.TurfWars.Game.Player.TurfPlayer;
 import ktar.five.TurfWars.Lobby.Lobby;
-
+import ktar.five.TurfWars.Main;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -67,12 +67,16 @@ public class Game implements Listener {
 	}
 
 	private void displayStartGametitlecountdown() {
-		// TODO Auto-generated method stub
+		for(TurfPlayer player : Lobby.players.getAll().values()){
+			TitleAPI.sendTitle(player.getPlayer(), 0, 20, 0, "GAME STARTS IN", (Phase.startCount.getSeconds() - seconds) + " SECONDS");
+		}
 
 	}
 
 	private void displayStartGametitle() {
-		// TODO Auto-generated method stub
+		for(TurfPlayer player : Lobby.players.getAll().values()){
+			TitleAPI.sendTitle(player.getPlayer(), 0, 20, 0, "GAME STARTS IN", (Phase.startCount.getSeconds() - seconds) + " SECONDS");
+		}
 
 	}
 
@@ -89,6 +93,7 @@ public class Game implements Listener {
 		} else if (phase.getType() == Phase.PhaseType.KILLING && seconds == 0) {//else if is killing phase starting
 			for (TurfPlayer player : Lobby.players.getAll().values()) {
 				player.setKitVenturing();
+				player.resetInventory();
 			}
 		} else if (phase.getType() == Phase.PhaseType.KILLING) {
 			blockgettercounter++;

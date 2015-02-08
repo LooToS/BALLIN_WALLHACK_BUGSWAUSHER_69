@@ -2,7 +2,6 @@
   <library name="spigot-1.8-R0.1-SNAPSHOT-latest">
     <CLASSES>
       <root url="jar://$USER_HOME$/Downloads/New folder/spigot-1.8-R0.1-SNAPSHOT-latest.jar!/" />
-      <root url="jar://$USER_HOME$/Downloads/New folder/Vaultnew.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

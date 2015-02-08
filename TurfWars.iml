@@ -47,5 +47,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Vaultnew" level="project" />
+    <orderEntry type="library" name="TitleAPI (2)" level="project" />
   </component>
 </module>

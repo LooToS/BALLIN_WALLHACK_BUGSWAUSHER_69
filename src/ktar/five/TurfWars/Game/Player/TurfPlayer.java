@@ -1,13 +1,9 @@
 package ktar.five.TurfWars.Game.Player;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.UUID;
-
-import ktar.five.TurfWars.Main;
-import ktar.five.TurfWars.Game.Game;
 import ktar.five.TurfWars.Game.Cooling.Cooldown;
-
+import ktar.five.TurfWars.Game.Game;
+import ktar.five.TurfWars.Lobby.Lobby;
+import ktar.five.TurfWars.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,6 +11,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.UUID;
 
 public class TurfPlayer {
 
@@ -32,6 +32,10 @@ public class TurfPlayer {
 	public boolean canVenture, canMove, isSuperSlowed;
 
 	public TurfPlayer(UUID uu) {
+		wins = defeats = totalKills = totalDeaths = topKillsPerMatch = currentKillsThisMatch = /*kit kills*/
+		shortestGame = longestGame = blocksDestroyed = blocksPlaced = arrowsShot =
+		topKillStreak = currentKillStreak = kitsUnlocked = 0;
+
 		try {
 			this.playerUUID = uu;
 			ResultSet rs = Main.instance.sql.querySQL("SELECT * FROM UserStats WHERE uuid = " + uu.toString());
@@ -94,7 +98,7 @@ public class TurfPlayer {
 		Location loc = Bukkit.getPlayer(playerUUID).getLocation().subtract(0, 1, 0);
 		for (int i = 0; i < 3; i++) {
 			loc = loc.subtract(0, 1, 0);
-			if (loc.getBlock().getData() == game.players.getTeamByte(this)) {
+			if (loc.getBlock().getData() == Lobby.players.getTeamByte(this)) {
 				return true;
 			}
 		}
