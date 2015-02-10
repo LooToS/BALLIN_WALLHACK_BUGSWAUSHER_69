@@ -18,6 +18,23 @@ hubOptions:
 lobbyOptions:
   world: 'neweb'
   locations:
+    fireworks:
+      one:
+        x: '-8.2'
+        y: 5
+        z '7'
+      two:
+        x: '-8.2'
+        y: 5
+        z '7'
+    winning:
+      x: '-8.2'
+      y: 5
+      z '7'
+    loosing:
+      x: '-8.2'
+      y: 5
+      z '7'
     infiltrator:
       x: '-8.2'
       y: 5

@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-public class Game implements Listener {
+public class Game {
 
 	public final String serverID;
 	public final Main plugin;
@@ -115,6 +115,8 @@ public class Game implements Listener {
 		for (TurfPlayer player : Lobby.players.getTurfPlayers(winning, true).values()) {
 			player.addDefeat(this.totalTime);
 		}
+		this.worldManager.resetMap();
+		
 		Lobby.players.updateDatabase();
 		//end the game completely
 
