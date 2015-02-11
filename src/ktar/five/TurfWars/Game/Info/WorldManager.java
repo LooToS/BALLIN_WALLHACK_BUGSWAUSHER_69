@@ -5,6 +5,7 @@ import java.util.List;
 
 import ktar.five.TurfWars.Main;
 import ktar.five.TurfWars.Game.Player.Team;
+import ktar.five.TurfWars.Lobby.Lobby;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,23 +17,33 @@ public class WorldManager {
 	public List<Blocks> turfBlocks;
 	public List<Location> placedBlocks;
 	public Location min,max;
-	
-    public final Location lobbySpawn;
-    public final Location redSpawn;
-    public final Location blueSpawn;
-    public final Location boxCorner1;
-    public final Location boxCorner2;
+
+	public final Location lobbySpawn;
+	public final Location redSpawn;
+	public final Location blueSpawn;
+	public final Location boxCorner1;
+	public final Location boxCorner2;
+
+	public final Location winning;
+	public final Location loosing;
+
+	public final List<Location> fireworks;
 
 	public WorldManager(Location lobbySpawn, Location redSpawn,
-    		Location blueSpawn, Location boxCorner1,
-    		Location boxCorner2) {
-		
-        this.lobbySpawn = lobbySpawn;
-        this.redSpawn = redSpawn;
-        this.blueSpawn = blueSpawn;
-        this.boxCorner1 = boxCorner1;
-        this.boxCorner2 = boxCorner2;
-		
+			Location blueSpawn, Location boxCorner1,
+			Location boxCorner2, List<Location> fireworks, Location winning, Location loosing) {
+
+		this.lobbySpawn = lobbySpawn;
+		this.redSpawn = redSpawn;
+		this.blueSpawn = blueSpawn;
+		this.boxCorner1 = boxCorner1;
+		this.boxCorner2 = boxCorner2;
+
+		this.fireworks = fireworks;
+
+		this.winning = winning;
+		this.loosing = loosing;
+
 		turfBlocks = new ArrayList<>();
 		placedBlocks = new ArrayList<>();
 		int xmin = Math.min(boxCorner2.getBlockX(), boxCorner1.getBlockZ());
@@ -63,7 +74,7 @@ public class WorldManager {
 			}
 			turfBlocks.get(i).team = Team.BLUE;
 		}
-		
+
 		for(int i = turfBlocks.size()-1 ; i > turfBlocks.size()/2 ; i-- ){
 			for(Location b : turfBlocks.get(i).blocks){
 				if(b.getBlock().getType().equals(Material.SPONGE)){
@@ -85,7 +96,7 @@ public class WorldManager {
 			return false;
 		}
 	}
-	
+
 	public boolean canBePlaced(Block block, Team team){
 		for(Blocks blocks : turfBlocks){
 			if(blocks.team == team){
@@ -95,9 +106,9 @@ public class WorldManager {
 			}
 		}
 		return false;
-		
+
 	}
-	
+
 	public void addPlacedBlock(Block block) {
 		placedBlocks.add(block.getLocation());
 	}
@@ -129,10 +140,34 @@ public class WorldManager {
 			int n = getCurrent(team);
 			for(int i = 1 ; i <= num ; i++ ){
 				setTeam(team, n+i);
+				if(this.getCurrent(Team.RED) == 0){
+					Lobby.getGame().endGame(team);
+				}
+			}
+		}else if(team == Team.RED){
+			int n = getCurrent(team);
+			for(int i = 1 ; i <= num ; i++ ){
+				setTeam(team, n-i);
+				if(this.getCurrent(Team.BLUE) == 0){
+					Lobby.getGame().endGame(team);
+				}
 			}
 		}
 	}
-	
+
+	public void resetMap(){
+		for(Location block : placedBlocks){
+			block.getBlock().setType(Material.AIR);
+		}
+		for(Blocks block : turfBlocks){
+			for(Location loc : block.blocks){
+				if(loc.getBlock().getType().equals(Material.STAINED_CLAY)){
+					loc.getBlock().setType(Material.SPONGE);
+				}
+			}
+		}
+	}
+
 	public void setTeam(Team team, int index){
 		this.turfBlocks.get(index).team = team;
 		for(Location b : turfBlocks.get(index).blocks){

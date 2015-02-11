@@ -1,5 +1,8 @@
 package ktar.five.TurfWars.Lobby;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ktar.five.TurfWars.GenericUtils;
 import ktar.five.TurfWars.Main;
 import ktar.five.TurfWars.Game.Game;
@@ -9,6 +12,7 @@ import ktar.five.TurfWars.Game.Info.GameStatus;
 import ktar.five.TurfWars.Game.Info.WorldManager;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -34,12 +38,18 @@ public class Lobby implements Listener{
 				GenericUtils.configToLocation(locations.getConfigurationSection("marksman"), world), 
 				GenericUtils.configToLocation(locations.getConfigurationSection("infiltrator"), world), 
 				GenericUtils.configToLocation(locations.getConfigurationSection("shredder"), world));
-		
+		List<Location> fireworks = new ArrayList<Location>();
+		for(String section : locations.getConfigurationSection("fireworks").getKeys(false)){
+			fireworks.add(GenericUtils.configToLocation(locations.getConfigurationSection("fireworks." + section), world));
+		}
 		info = new WorldManager(GenericUtils.configToLocation(locations.getConfigurationSection("lobbySpawn"), world), 
 				GenericUtils.configToLocation(locations.getConfigurationSection("redSpawn"), world), 
 				GenericUtils.configToLocation(locations.getConfigurationSection("blueSpawn"), world), 
 				GenericUtils.configToLocation(locations.getConfigurationSection("boundaryOne"), world), 
-				GenericUtils.configToLocation(locations.getConfigurationSection("boundaryTwo"), world));
+				GenericUtils.configToLocation(locations.getConfigurationSection("boundaryTwo"), world),
+				fireworks,
+				GenericUtils.configToLocation(locations.getConfigurationSection("winning"), world),
+				GenericUtils.configToLocation(locations.getConfigurationSection("loosing"), world));
 		status = GameStatus.WAITING_FOR_PLAYERS;
 	}
 	
