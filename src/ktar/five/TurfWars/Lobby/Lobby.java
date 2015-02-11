@@ -85,5 +85,10 @@ public class Lobby implements Listener{
 	public static Game getGame(){
 		return game;
 	}
+
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

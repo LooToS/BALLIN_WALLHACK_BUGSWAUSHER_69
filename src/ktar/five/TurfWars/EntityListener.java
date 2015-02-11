@@ -4,6 +4,7 @@ import ktar.five.TurfWars.Game.Player.Kit;
 import ktar.five.TurfWars.Game.Player.TurfPlayer;
 import ktar.five.TurfWars.Lobby.Lobby;
 import ktar.five.TurfWars.Lobby.LobbyUtils.MobType;
+import ktar.five.TurfWars.guis.ServerSelectGui;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -84,7 +85,8 @@ public class EntityListener implements Listener {
 			}
 			event.setCancelled(true);
 		}else if(event.getRightClicked().hasMetadata("HubMob")){
-			open gui here;
+			ServerSelectGui gui = new ServerSelectGui();
+			gui.open(event.getPlayer());
 			event.setCancelled(true);
 		}
 	}
