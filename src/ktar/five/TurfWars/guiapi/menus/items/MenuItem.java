@@ -13,7 +13,7 @@ import ktar.five.TurfWars.guiapi.menus.events.ItemClickEvent;
 public class MenuItem {
     private final String displayName;
     private final ItemStack icon;
-    private final List<String> lore;
+    private List<String> lore;
 
     public MenuItem(String displayName, ItemStack icon, String... lore) {
         this.displayName = displayName;
@@ -28,6 +28,11 @@ public class MenuItem {
      */
     public String getDisplayName() {
         return displayName;
+    }
+    
+    public void setLore(List<String> lore)
+    {
+    	this.lore = lore;
     }
 
     /**

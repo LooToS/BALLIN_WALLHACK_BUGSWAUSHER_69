@@ -12,12 +12,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-public class ServerMenuItem extends MenuItem
+public class ServerActiveGamesGui extends MenuItem
 {
 	private Lobby lobbyToConnectTo;
 	private Plugin p;
 	
-	public ServerMenuItem(Lobby lobby)
+	public ServerActiveGamesGui(Lobby lobby)
 	{
 		super(lobby.getName(), new ItemStack(Material.EMERALD_BLOCK), new String[] 
 				{"",
@@ -25,8 +25,8 @@ public class ServerMenuItem extends MenuItem
 				 ChatColor.YELLOW + "Map: "	+ ChatColor.WHITE +  lobby.getGame().toString(),
 				 ChatColor.YELLOW + "Players: " + ChatColor.WHITE + lobby.players.getAll().values().size() + "/" + (lobby.players.maxPerTeam * 2),
 				 "",
-				 ChatColor.GREEN + "Starting in " + lobby.getGame().seconds + "Seconds",
-				 ChatColor.UNDERLINE +  "Click to Join"
+				 ChatColor.YELLOW + "In Progress",
+				 ChatColor.UNDERLINE +  "Get Ultra to join full servers!"
 				 });
 		this.lobbyToConnectTo = lobby;
 		p = Main.instance;

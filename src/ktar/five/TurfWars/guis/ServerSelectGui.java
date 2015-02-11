@@ -6,6 +6,7 @@ import ktar.five.TurfWars.Main;
 import ktar.five.TurfWars.Lobby.Lobby;
 import ktar.five.TurfWars.Lobby.LobbyUtils;
 import ktar.five.TurfWars.guiapi.menus.menus.ItemMenu;
+import ktar.five.TurfWars.hub.Hub;
 
 public class ServerSelectGui extends ItemMenu
 {
@@ -17,9 +18,10 @@ public class ServerSelectGui extends ItemMenu
 
 	public void initInventory()	
 	{
+		this.setItem(4, new GoBackMenuItem(this));
 //		for(Lobby lobby : LobbyUtils.instance.getJoinableServers())
 //		{
-//			this.addItem(new ServerMenuItem(lobby));
+			this.addItem(new ServerMenuItem(null));
 //		}
 	}
 }
