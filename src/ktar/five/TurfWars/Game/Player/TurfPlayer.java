@@ -214,6 +214,10 @@ public class TurfPlayer {
 		p.getInventory().setContents(kit.getItems().toArray(new ItemStack[kit.getItems().size()]));
 	}
 
+	public void returnToLobby(){
+
+	}
+
 	public void giveArrow() {
 		this.getPlayer().getInventory().addItem(new ItemStack(Material.ARROW, 1));
 		this.arrows++;

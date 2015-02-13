@@ -7,27 +7,25 @@ import ktar.five.TurfWars.Game.Info.WorldManager;
 import ktar.five.TurfWars.Game.Player.Team;
 import ktar.five.TurfWars.Game.Player.TurfPlayer;
 import ktar.five.TurfWars.Lobby.Lobby;
-import ktar.five.TurfWars.Main;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 public class Game {
 
 	public final String serverID;
-	public final Main plugin;
 	public int seconds, totalTime, blockgettercounter;
 	public Phase phase;
 	public WorldManager worldManager;
 
-	public Game(String serverID, Main instance, Lobby lobby) {
+	public Game(String serverID) {
 		this.serverID = serverID;
-		this.plugin = instance;
 	}
 
 	public void start(WorldManager manager) {
 		this.seconds = 0;
+		this.totalTime = 0;
+		this.blockgettercounter = 0;
 		this.worldManager = manager;
 		for (TurfPlayer p : Lobby.players.redTeam.values())
 			p.getPlayer().teleport(worldManager.redSpawn);
@@ -75,7 +73,7 @@ public class Game {
 
 	private void displayStartGametitle() {
 		for(TurfPlayer player : Lobby.players.getAll().values()){
-			TitleAPI.sendTitle(player.getPlayer(), 0, 20, 0, "GAME STARTS IN", (Phase.startCount.getSeconds() - seconds) + " SECONDS");
+			TitleAPI.sendTitle(player.getPlayer(), 0, 20, 0, "GAME IS STARTING", "GOOD LUCK");
 		}
 
 	}
@@ -119,10 +117,6 @@ public class Game {
 		
 		Lobby.players.updateDatabase();
 		//end the game completely
-
-
-		this.worldManager = null;
-		this.phase = null;
 	}
 
 	public void playerDied(Player p) {

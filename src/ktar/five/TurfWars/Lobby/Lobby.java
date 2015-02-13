@@ -1,36 +1,37 @@
 package ktar.five.TurfWars.Lobby;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ktar.five.TurfWars.GenericUtils;
-import ktar.five.TurfWars.Main;
-import ktar.five.TurfWars.Game.Game;
 import ktar.five.TurfWars.Game.Cooling.Cooldown;
+import ktar.five.TurfWars.Game.Game;
 import ktar.five.TurfWars.Game.Info.GamePlayers;
 import ktar.five.TurfWars.Game.Info.GameStatus;
 import ktar.five.TurfWars.Game.Info.WorldManager;
-
+import ktar.five.TurfWars.Game.Player.Team;
+import ktar.five.TurfWars.Game.Player.TurfPlayer;
+import ktar.five.TurfWars.GenericUtils;
+import ktar.five.TurfWars.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Lobby implements Listener{
 
 	private static Game game;	
-	public WorldManager info; 
+	public static WorldManager info;
 	public static GameStatus status;
-	private int seconds;
+	private static int seconds;
 	private int lobbyCountdown = 50;
 	public static GamePlayers players;
-	private Main instance;
 	
-	public Lobby(Main plugin, FileConfiguration config){
-		this.instance = plugin;
+	public Lobby(FileConfiguration config){
 		this.createTimer();
+		this.players = new GamePlayers();
 		World world = Bukkit.getWorld(config.getString("lobbyOptions.world"));
 		ConfigurationSection locations = config.getConfigurationSection("lobbyOptions.locations");
 		LobbyUtils.spawnMobs(GenericUtils.configToLocation(locations.getConfigurationSection("blueSheep"), world),
@@ -54,7 +55,7 @@ public class Lobby implements Listener{
 	}
 	
     private void createTimer() {
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(instance, new Runnable() {
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Main.instance, new Runnable() {
             @Override
             public void run() {
             	perSecond();
@@ -75,18 +76,50 @@ public class Lobby implements Listener{
             } else if (players.gameFull() && seconds == lobbyCountdown) {
                 this.startGame();
             }
-        } else if (status == GameStatus.STARTING || status == GameStatus.IN_PROGRESS || status == GameStatus.ENDING){
+        } else if (status == GameStatus.STARTING || status == GameStatus.IN_PROGRESS){
         	game.perSecond();
-        }
+        } else if (status == GameStatus.ENDING) {
+			if (seconds == 30){
+				updateStatus(GameStatus.RESTARTING);
+				for(TurfPlayer player : players.getAll().values()){
+					player.returnToLobby();
+				}
+				players.clear();
+			}
+
+		}
     }
     
     private void startGame(){
     	game.start(info);
     }
     
-    private void endGame(){
-    	
+    private static void endGame(Team team){
+    	getGame().endGame(team);
     }
+
+	public static void teamWon(Team team){
+		updateStatus(GameStatus.ENDING);
+		for(TurfPlayer player : players.getTurfPlayers(team, false).values()){
+			Player p = player.getPlayer();
+			p.getInventory().clear();
+			p.setHealth(20d);
+
+			player.canMove = false;
+			player.canVenture = true;
+			p.teleport(info.winning);
+		}
+		for(TurfPlayer player : players.getTurfPlayers(team, true).values()){
+			Player p = player.getPlayer();
+			p.getInventory().clear();
+			p.setHealth(20d);
+
+			player.canMove = false;
+			player.canVenture = true;
+			p.teleport(info.loosing);
+		}
+		seconds = 0;
+	}
 
 	public static void updateStatus(GameStatus newstatus) {
 		status = newstatus;

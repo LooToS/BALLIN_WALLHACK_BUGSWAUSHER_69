@@ -1,16 +1,15 @@
 package ktar.five.TurfWars.Game.Info;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ktar.five.TurfWars.Main;
 import ktar.five.TurfWars.Game.Player.Team;
 import ktar.five.TurfWars.Lobby.Lobby;
-
+import ktar.five.TurfWars.Main;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.metadata.FixedMetadataValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WorldManager {
 
@@ -141,7 +140,7 @@ public class WorldManager {
 			for(int i = 1 ; i <= num ; i++ ){
 				setTeam(team, n+i);
 				if(this.getCurrent(Team.RED) == 0){
-					Lobby.getGame().endGame(team);
+					Lobby.teamWon(team);
 				}
 			}
 		}else if(team == Team.RED){
@@ -149,7 +148,7 @@ public class WorldManager {
 			for(int i = 1 ; i <= num ; i++ ){
 				setTeam(team, n-i);
 				if(this.getCurrent(Team.BLUE) == 0){
-					Lobby.getGame().endGame(team);
+					Lobby.teamWon(team);
 				}
 			}
 		}

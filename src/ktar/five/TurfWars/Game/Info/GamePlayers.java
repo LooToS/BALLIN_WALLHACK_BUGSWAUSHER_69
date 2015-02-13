@@ -152,4 +152,10 @@ public class GamePlayers {
 		}
     }
 
+    public void clear(){
+        this.blueTeam.clear();
+        this.redTeam.clear();
+        this.spectators.clear();
+    }
+
 }
