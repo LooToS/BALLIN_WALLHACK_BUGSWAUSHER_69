@@ -32,6 +32,10 @@ public class Main extends JavaPlugin implements PluginMessageListener{
 	public void onEnable() {
 		try {
 			c = sql.openConnection();
+			sql.updateSQL("CREATE TABLE IF NOT EXISTS UserStats (id int NOT NULL AUTO_INCREMENT, uuid char(36) NOT NULL UNIQUE, " +
+					"wins int NOT NULL, defeats int NOT NULL, totalKills int NOT NULL, totalDeaths int NOT NULL, topKillsPerMatch int NOT NULL, " +
+					"shortestGame int NOT NULL, longestGame int NOT NULL, topKillStreak int NOT NULL, arrowsShot int NOT NULL, " +
+					"blocksDestroyed int NOT NULL, blocksPlaced int NOT NULL, kitsUnlocked int NOT NULL, PRIMARY KEY (id))");
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}

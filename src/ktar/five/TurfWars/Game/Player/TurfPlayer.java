@@ -32,30 +32,34 @@ public class TurfPlayer {
 	public boolean canVenture, canMove, isSuperSlowed;
 
 	public TurfPlayer(UUID uu) {
-		wins = defeats = totalKills = totalDeaths = topKillsPerMatch = currentKillsThisMatch = /*kit kills*/
-		shortestGame = longestGame = blocksDestroyed = blocksPlaced = arrowsShot =
-		topKillStreak = currentKillStreak = kitsUnlocked = 0;
-
 		try {
 			this.playerUUID = uu;
 			ResultSet rs = Main.instance.sql.querySQL("SELECT * FROM UserStats WHERE uuid = " + uu.toString());
-			this.id = rs.getInt("id");
-			this.wins = rs.getInt("wins");
-			this.defeats = rs.getInt("defeats");
-			this.totalKills = rs.getInt("totalKills");
-			this.totalDeaths = rs.getInt("totalDeaths");
-			this.topKillsPerMatch = rs.getInt("topKillsPerMatch");
-			this.currentKillsThisMatch = 0;
-			this.shortestGame = rs.getInt("shortestGame");
-			this.longestGame = rs.getInt("longestGame");
-			this.currentKillStreak = 0;
-			this.topKillStreak = rs.getInt("topKillStreak");
-			this.arrowsShot = rs.getInt("arrowsShot");
-			this.blocksDestroyed = rs.getInt("blocksDestroyed");
-			this.blocksPlaced = rs.getInt("blocksPlaced");
-			this.kitsUnlocked = rs.getInt("kitsUnlocked");
-			rs.close();
+			while(rs.next()) {
+				this.id = rs.getInt("id");
+				this.wins = rs.getInt("wins");
+				this.defeats = rs.getInt("defeats");
+				this.totalKills = rs.getInt("totalKills");
+				this.totalDeaths = rs.getInt("totalDeaths");
+				this.topKillsPerMatch = rs.getInt("topKillsPerMatch");
+				this.currentKillsThisMatch = 0;
+				this.shortestGame = rs.getInt("shortestGame");
+				this.longestGame = rs.getInt("longestGame");
+				this.currentKillStreak = 0;
+				this.topKillStreak = rs.getInt("topKillStreak");
+				this.arrowsShot = rs.getInt("arrowsShot");
+				this.blocksDestroyed = rs.getInt("blocksDestroyed");
+				this.blocksPlaced = rs.getInt("blocksPlaced");
+				this.kitsUnlocked = rs.getInt("kitsUnlocked");
+				this.kit = Kit.MARKSMAN;
+				rs.close();
+				return;
+			}
+			wins = defeats = totalKills = totalDeaths = topKillsPerMatch = currentKillsThisMatch = /*kit kills*/
+					shortestGame = longestGame = blocksDestroyed = blocksPlaced = arrowsShot =
+							topKillStreak = currentKillStreak = kitsUnlocked = 0;
 			this.kit = Kit.MARKSMAN;
+			rs.close();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
