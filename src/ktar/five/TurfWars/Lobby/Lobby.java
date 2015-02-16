@@ -31,6 +31,7 @@ public class Lobby implements Listener{
 	private int lobbyCountdown = 50;
 	public static GamePlayers players;
 	public static String serverid;
+	private Random r = new Random();
 
 	public Lobby(FileConfiguration config){
 		this.createTimer();
@@ -92,6 +93,7 @@ public class Lobby implements Listener{
 				players.clear();
 				this.endGame(info.getWinning());//how get team
 			}else{
+				r.setSeed(System.nanoTime());
 				playFireworks();
 			}
 
@@ -104,10 +106,6 @@ public class Lobby implements Listener{
 			//Spawn the Firework, get the FireworkMeta.
 			Firework fw = (Firework) loc.getWorld().spawnEntity(loc, EntityType.FIREWORK);
 			FireworkMeta fwm = fw.getFireworkMeta();
-
-			//Our random generator
-			Random r = new Random();
-
 			//Get the type
 			int rt = r.nextInt(5) + 1;
 			FireworkEffect.Type type = FireworkEffect.Type.BALL;

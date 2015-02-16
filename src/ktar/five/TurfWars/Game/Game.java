@@ -7,6 +7,7 @@ import ktar.five.TurfWars.Game.Info.WorldManager;
 import ktar.five.TurfWars.Game.Player.Team;
 import ktar.five.TurfWars.Game.Player.TurfPlayer;
 import ktar.five.TurfWars.Lobby.Lobby;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -65,29 +66,23 @@ public class Game {
 	}
 
 	private void displayStartGametitlecountdown() {
-		for(TurfPlayer player : Lobby.players.getAll().values()){
+		for(TurfPlayer player : Lobby.players.getAll().values())
 			TitleAPI.sendTitle(player.getPlayer(), 0, 20, 0, "GAME STARTS IN", (Phase.startCount.getSeconds() - seconds) + " SECONDS");
-		}
-
 	}
 
 	private void displayStartGametitle() {
-		for(TurfPlayer player : Lobby.players.getAll().values()){
+		for(TurfPlayer player : Lobby.players.getAll().values())
 			TitleAPI.sendTitle(player.getPlayer(), 0, 20, 0, "GAME IS STARTING", "GOOD LUCK");
-		}
-
 	}
 
 	private void handlePhases() {
 		if (phase.getType() == Phase.PhaseType.BUILDING && seconds == 0) {//if it is a build phase starting.
 			for (TurfPlayer player : Lobby.players.getAll().values())
 				player.canVenture = false;
-
 			for (TurfPlayer player : Lobby.players.blueTeam.values())
 				player.getPlayer().getInventory().addItem(new ItemStack(Material.STAINED_CLAY, phase.getAmount(), Team.BLUE.color));
 			for (TurfPlayer player : Lobby.players.redTeam.values())
 				player.getPlayer().getInventory().addItem(new ItemStack(Material.STAINED_CLAY, phase.getAmount(), Team.RED.color));
-
 		} else if (phase.getType() == Phase.PhaseType.KILLING && seconds == 0) {//else if is killing phase starting
 			for (TurfPlayer player : Lobby.players.getAll().values()) {
 				player.setKitVenturing();
@@ -115,10 +110,9 @@ public class Game {
 		}
 		this.worldManager.resetMap();
 		Lobby.players.updateDatabase();
-		//end the game completely
 	}
 
-	public void playerDied(Player p) {
+	public void playerDied(Player p, String message) {
 		p.setHealth(20D);
 		p.setFireTicks(0);
 		TurfPlayer player = Lobby.players.getAll().get(p.getUniqueId());
@@ -130,6 +124,7 @@ public class Game {
 			p.teleport(worldManager.redSpawn);
 			worldManager.addClays(Team.BLUE, phase.getAmount());
 		}
+		p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&1&lDeath>&r &c" + p.getName().toUpperCase() + "&7 was killed by " + message));
 		player.addDeath();
 		player.resetInventory();
 	}

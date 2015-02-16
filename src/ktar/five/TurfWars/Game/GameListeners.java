@@ -2,6 +2,7 @@ package ktar.five.TurfWars.Game;
 
 import java.util.UUID;
 
+import ktar.five.TurfWars.Game.Player.Team;
 import ktar.five.TurfWars.Main;
 import ktar.five.TurfWars.Game.Cooling.TurfEvent;
 import ktar.five.TurfWars.Game.Info.Phase.PhaseType;
@@ -10,6 +11,7 @@ import ktar.five.TurfWars.Game.Player.TurfPlayer;
 import ktar.five.TurfWars.Lobby.Lobby;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
@@ -57,7 +59,7 @@ public class GameListeners {
 						TurfPlayer player = Lobby.players.getAll().get(damager.getUniqueId());
 						player.addKill();
 						damaged.setHealth(20D);
-						Lobby.getGame().playerDied(damaged);
+						Lobby.getGame().playerDied(damaged, "penetration of " + (Lobby.players.getPlayerTeam(player).equals(Team.RED) ? "&4" : "&b") + player.getPlayer().getName().toUpperCase() + "&7's sword");
 					}
 				}else if (event.getCause().equals(DamageCause.PROJECTILE) && event.getDamager() instanceof Arrow){
 					Arrow arrow = (Arrow) event.getDamager();
@@ -71,7 +73,7 @@ public class GameListeners {
 						TurfPlayer player = Lobby.players.getAll().get(damager.getUniqueId());
 						player.addKill();
 						damaged.setHealth(20D);
-						Lobby.getGame().playerDied(damaged);
+						Lobby.getGame().playerDied(damaged, "getting hit with " + (Lobby.players.getPlayerTeam(player).equals(Team.RED) ? "&4" : "&b") + player.getPlayer().getName().toUpperCase() + "&7's arrow in the knee!");
 					}
 				}
 			}
@@ -92,7 +94,7 @@ public class GameListeners {
 					event.setDamage(0D);
 				} else if (cause.equals(DamageCause.VOID)) {
 					event.setDamage(0D);
-					Lobby.getGame().playerDied(player);
+					Lobby.getGame().playerDied(player, "&8FAAAaaaalllliinngg...");
 				} else if (cause.equals(DamageCause.FIRE_TICK)){
 					event.setDamage(0D);
 				}
@@ -121,9 +123,11 @@ public class GameListeners {
 			switch (event.getTo().getBlock().getType()){
 			case LAVA:
 			case STATIONARY_LAVA:
+				Lobby.getGame().playerDied(p.getPlayer(), "&6L&eI&6C&eK&6I&eN&6' &eL&6A&eV&6A");
+				break;
 			case WATER:
 			case STATIONARY_WATER:
-				Lobby.getGame().playerDied(p.getPlayer());
+				Lobby.getGame().playerDied(p.getPlayer(), "3F&bE&3A&bR &3O&bF &3W&bA&3T&bE&3R&");
 				break;
 			default:
 				break;
