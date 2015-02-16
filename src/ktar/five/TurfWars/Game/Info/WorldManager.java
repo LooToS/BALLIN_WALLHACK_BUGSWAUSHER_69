@@ -28,6 +28,9 @@ public class WorldManager {
 
 	public final List<Location> fireworks;
 
+	public int red;
+	public int blue;
+
 	public WorldManager(Location lobbySpawn, Location redSpawn,
 			Location blueSpawn, Location boxCorner1,
 			Location boxCorner2, List<Location> fireworks, Location winning, Location loosing) {
@@ -84,6 +87,8 @@ public class WorldManager {
 			}
 			turfBlocks.get(i).team = Team.RED;
 		}
+
+		blue = red = turfBlocks.size()/2;
 	}
 
 	public boolean removeIfIsPlacedBlock(Block block) {
@@ -137,6 +142,8 @@ public class WorldManager {
 	public void addClays(Team team, int num) {
 		if(team == Team.BLUE){
 			int n = getCurrent(team);
+			blue += num;
+			red -= num;
 			for(int i = 1 ; i <= num ; i++ ){
 				setTeam(team, n+i);
 				if(this.getCurrent(Team.RED) == 0){
@@ -145,6 +152,8 @@ public class WorldManager {
 			}
 		}else if(team == Team.RED){
 			int n = getCurrent(team);
+			blue -= num;
+			red += num;
 			for(int i = 1 ; i <= num ; i++ ){
 				setTeam(team, n-i);
 				if(this.getCurrent(Team.BLUE) == 0){
@@ -152,6 +161,10 @@ public class WorldManager {
 				}
 			}
 		}
+	}
+
+	public Team getWinning(){
+		return red >= blue ? Team.RED : Team.BLUE;
 	}
 
 	public void resetMap(){

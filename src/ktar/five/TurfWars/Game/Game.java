@@ -114,7 +114,6 @@ public class Game {
 			player.addDefeat(this.totalTime);
 		}
 		this.worldManager.resetMap();
-		
 		Lobby.players.updateDatabase();
 		//end the game completely
 	}

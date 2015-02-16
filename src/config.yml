@@ -1,10 +1,11 @@
 isHub: false
+serverid: lobby1
 hubOptions:
   world: 'world'
   gameServers:
-    - serv1
-    - serv2
-    - serv4
+    - lobby1
+    - lobby2
+    - lobby3
   hubNpcLocations:
     loc1:
       x: '-1.2'
