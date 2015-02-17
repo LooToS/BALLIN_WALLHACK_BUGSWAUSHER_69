@@ -93,9 +93,9 @@ public class Lobby implements Listener{
         } else if (status == GameStatus.STARTING || status == GameStatus.IN_PROGRESS){
         	game.perSecond();
         } else if (status == GameStatus.ENDING) {
-			if (seconds == 30){
+			if (seconds == 30) {
 				updateStatus(GameStatus.RESTARTING);
-				for(TurfPlayer player : players.getAll().values()){
+				for (TurfPlayer player : players.getAll().values()) {
 					player.returnToLobby();
 				}
 				this.endGame(info.getWinning());
@@ -114,6 +114,8 @@ public class Lobby implements Listener{
     private static void endGame(Team team){
     	game.endGame(team);
 		game = new Game(serverid);
+		status = GameStatus.WAITING_FOR_PLAYERS;
+		seconds = 0;
     }
 
 	public static void teamWon(Team team){

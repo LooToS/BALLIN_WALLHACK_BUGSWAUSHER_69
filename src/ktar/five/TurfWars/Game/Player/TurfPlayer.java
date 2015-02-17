@@ -199,14 +199,14 @@ public class TurfPlayer {
 	}
 
 	public String getQuery(){
-		return "INSERT INTO UserStats (uuid, wins, defeats, totalKills, totalDeaths, topKillsPerMatch, shortestGame, longestGame" +
+		return "INSERT INTO UserStats (uuid, wins, defeats, totalKills, totalDeaths, topKillsPerMatch, shortestGame, longestGame, " +
 				"topKillStreak, arrowsShot, blocksDestroyed, blocksPlaced, kitsUnlocked) " +
 				"VALUES (" + this.playerUUID.toString() + ", " + this.wins  + ", " + this.defeats  + ", " + this.totalKills  + ", " + this.totalDeaths  + ", " +
 				this.topKillsPerMatch  + ", " + this.shortestGame  + ", " + this.longestGame  + ", " + this.topKillStreak  + ", " + this.arrowsShot
 				+ ", " + this.blocksDestroyed  + ", " + this.blocksPlaced  + ", " + this.kitsUnlocked + ") " +
-				"ON DUPLICATE KEY UPDATE UserStats SET ( wins = "+ this.wins  + ", defeats = " + this.defeats  + ", totalKills = " + this.totalKills  + ", totalDeaths =" + this.totalDeaths  + ", topKillsPerMatch = " +
-		this.topKillsPerMatch  + ", shortestGame = " + this.shortestGame  + ", longestGame = " + this.longestGame  + ", topKillStreak = " + this.topKillStreak  + ", arrowsShot = " + this.arrowsShot
-				+ ", blocksDestroyed = " + this.blocksDestroyed  + ", blocksPlaced = " + this.blocksPlaced  + ", kitsUnlocked = " + this.kitsUnlocked + ")" ;
+				"ON DUPLICATE KEY UPDATE wins="+ this.wins  + ", defeats=" + this.defeats  + ", totalKills=" + this.totalKills  + ", totalDeaths=" + this.totalDeaths  + ", topKillsPerMatch=" +
+		this.topKillsPerMatch  + ", shortestGame=" + this.shortestGame  + ", longestGame=" + this.longestGame  + ", topKillStreak=" + this.topKillStreak  + ", arrowsShot=" + this.arrowsShot
+				+ ", blocksDestroyed=" + this.blocksDestroyed  + ", blocksPlaced=" + this.blocksPlaced  + ", kitsUnlocked=" + this.kitsUnlocked + "" ;
 	}
 
 	public void resetInventory() {
