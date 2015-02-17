@@ -18,13 +18,13 @@ public class Scoreboards {
                 ? "Waiting For Players" : "Game starts in " + (Lobby.lobbyCountdown - Lobby.seconds) + " seconds");
         ob.setDisplaySlot(DisplaySlot.SIDEBAR);
         ob.getScore(" ").setScore(15);
-        ob.getScore("PLAYERS").setScore(14);
+        ob.getScore("Players").setScore(14);
         ob.getScore(Lobby.players.getAll().size() + "/16").setScore(13);
         ob.getScore("  ").setScore(12);
-        ob.getScore("KIT").setScore(11);
+        ob.getScore("Kit").setScore(11);
         ob.getScore(p.kit.name()).setScore(10);
         ob.getScore("   ").setScore(9);
-        ob.getScore("GEMS").setScore(8);
+        ob.getScore("Gems").setScore(8);
         ob.getScore(String.valueOf(p.getBalance())).setScore(7);
         p.getPlayer().setScoreboard(sb);
     }
@@ -32,14 +32,14 @@ public class Scoreboards {
     public static void getGameScoreboard(TurfPlayer p){
         Scoreboard sb = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective ob = sb.registerNewObjective(p.playerUUID.toString(), "dummy");
-        ob.setDisplayName("SkyCraft");
+        ob.setDisplayName("SKYCRAFT");
         ob.setDisplaySlot(DisplaySlot.SIDEBAR);
         ob.getScore(" ").setScore(15);
-        ob.getScore(Lobby.info.blue + " BLUE").setScore(14);
+        ob.getScore(Lobby.info.blue + " Blue").setScore(14);
         ob.getScore("  ").setScore(13);
-        ob.getScore(Lobby.info.red + " RED").setScore(12);
+        ob.getScore(Lobby.info.red + " Red").setScore(12);
         ob.getScore("   ").setScore(11);
-        ob.getScore(Lobby.getGame().phase.getType() == Phase.PhaseType.BUILDING ? "Building Time" : "Murdering Time").setScore(10);
+        ob.getScore(Lobby.getGame().phase.getType() == Phase.PhaseType.BUILDING ? "Build Time" : "Combat Time").setScore(10);
         ob.getScore(String.valueOf(Lobby.getGame().phase.getSeconds() - Lobby.seconds)).setScore(9);
         p.getPlayer().setScoreboard(sb);
     }
