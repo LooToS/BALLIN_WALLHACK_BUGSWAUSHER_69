@@ -151,7 +151,7 @@ public class WorldManager {
 				}
 			}
 		}else if(team == Team.RED){
-			int n = getCurrent(team);
+			int n = turfBlocks.size() - getCurrent(team);
 			blue -= num;
 			red += num;
 			for(int i = 1 ; i <= num ; i++ ){

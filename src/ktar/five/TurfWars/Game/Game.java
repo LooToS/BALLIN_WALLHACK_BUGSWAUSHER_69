@@ -7,6 +7,7 @@ import ktar.five.TurfWars.Game.Info.WorldManager;
 import ktar.five.TurfWars.Game.Player.Team;
 import ktar.five.TurfWars.Game.Player.TurfPlayer;
 import ktar.five.TurfWars.Lobby.Lobby;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -104,9 +105,11 @@ public class Game {
 		Lobby.updateStatus(GameStatus.ENDING);
 		for (TurfPlayer player : Lobby.players.getTurfPlayers(winning, false).values()) {
 			player.addWin(this.totalTime);
+			player.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		}
 		for (TurfPlayer player : Lobby.players.getTurfPlayers(winning, true).values()) {
 			player.addDefeat(this.totalTime);
+			player.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		}
 		this.worldManager.resetMap();
 		Lobby.players.updateDatabase();
