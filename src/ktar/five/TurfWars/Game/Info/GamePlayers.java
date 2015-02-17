@@ -45,11 +45,11 @@ public class GamePlayers {
     public Map<UUID, TurfPlayer> getTurfPlayers(Team team, boolean opposite){
     	if(team == Team.BLUE && !opposite){
     		return blueTeam;
-    	}else if(team == Team.BLUE && opposite){
+    	}else if(team == Team.BLUE){
     		return redTeam;
     	}else if(team == Team.RED && opposite){
     		return blueTeam;
-    	}else if(team == Team.RED && !opposite){
+    	}else if(team == Team.RED){
     		return redTeam;
     	}
 		return null;

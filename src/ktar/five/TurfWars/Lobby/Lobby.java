@@ -33,7 +33,7 @@ public class Lobby implements Listener{
 
 	public Lobby(FileConfiguration config){
 		this.createTimer();
-		this.players = new GamePlayers();
+		players = new GamePlayers();
 		seconds = 0;
 		serverid = config.getString("serverid");
 		World world = Bukkit.getWorld(config.getString("lobbyOptions.world"));
@@ -98,7 +98,7 @@ public class Lobby implements Listener{
 				for (TurfPlayer player : players.getAll().values()) {
 					player.returnToLobby();
 				}
-				this.endGame(info.getWinning());
+				endGame(info.getWinning());
 				players.clear();
 			}else{
 				LobbyUtils.playFireworks();

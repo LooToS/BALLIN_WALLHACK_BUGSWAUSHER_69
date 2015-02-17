@@ -22,10 +22,10 @@ public class ServerMenuItem extends MenuItem
 		super(lobby.getName(), new ItemStack(Material.EMERALD_BLOCK), new String[] 
 				{"",
 			     ChatColor.YELLOW + "Game: " + ChatColor.WHITE + "Turf Wars",
-				 ChatColor.YELLOW + "Map: "	+ ChatColor.WHITE +  lobby.getGame().toString(),
-				 ChatColor.YELLOW + "Players: " + ChatColor.WHITE + lobby.players.getAll().values().size() + "/" + (lobby.players.maxPerTeam * 2),
+				 ChatColor.YELLOW + "Map: "	+ ChatColor.WHITE +  Lobby.getGame().toString(),
+				 ChatColor.YELLOW + "Players: " + ChatColor.WHITE + Lobby.players.getAll().values().size() + "/" + (Lobby.players.maxPerTeam * 2),
 				 "",
-				 ChatColor.GREEN + "Starting in " + lobby.getGame().seconds + "Seconds",
+				 ChatColor.GREEN + "Starting in " + Lobby.getGame().seconds + "Seconds",
 				 ChatColor.UNDERLINE +  "Click to Join"
 				 });
 		this.lobbyToConnectTo = lobby;
